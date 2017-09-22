@@ -1,0 +1,30 @@
+body{
+    background: #D10000;}
+
+
+
+tr:nth-of-type(even){
+    background-color: #dcdcdc;
+}
+
+.container{
+    margin-top: 50px;
+    background:#D1C1AB;
+
+}
+
+.affix {
+    top: 0;
+    width: 100%;
+}
+
+.affix + .container-fluid {
+    padding-top: 70px;
+}
+
+.navbar-inverse{
+    
+    background: #940000;
+    border: none;
+    
+}

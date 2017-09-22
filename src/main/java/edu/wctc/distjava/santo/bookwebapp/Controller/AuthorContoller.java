@@ -5,8 +5,11 @@
  */
 package edu.wctc.distjava.santo.bookwebapp.Controller;
 
+import edu.wctc.distjava.santo.bookwebapp.Model.Author;
+import edu.wctc.distjava.santo.bookwebapp.Model.AuthorService;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,6 +24,10 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "AuthorContoller", urlPatterns = {"/author"})
 public class AuthorContoller extends HttpServlet {
 
+    private static final String AUTHOR_LIST = "list";
+    private static final String ACTION = "action";
+    private static final long serialVersionUID = 1L;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -32,13 +39,28 @@ public class AuthorContoller extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+            String destination = "/authorList.jsp";
+            List<Author> authorList;
+        try {
+            String action = request.getParameter(ACTION);
+            AuthorService authorService = new AuthorService();
+            
+            authorList = authorService.getAuthorList();
+            request.setAttribute("authorList", authorList);
+            if(action.equalsIgnoreCase(AUTHOR_LIST)){
+            
+            
+            
+            }
+            
+        } catch (Exception ex) {
+            destination = "/authorList.jsp";
+           request.setAttribute("errMessage", ex.getMessage());
+        }
 
-        
-     
-            RequestDispatcher view
-                    = request.getRequestDispatcher("/lab3.jsp");
-            view.forward(request, response);
+        RequestDispatcher view
+                = request.getRequestDispatcher(destination);
+        view.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
