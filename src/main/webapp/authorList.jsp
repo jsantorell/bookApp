@@ -1,7 +1,7 @@
 <%-- 
     Document   : authorList
     Created on : Sep 19, 2017, 8:35:54 PM
-    Author     : jlombardo
+    Author     : jerem
 --%>
 
 <%@page import="java.util.List"%>

@@ -5,7 +5,7 @@ import java.util.Objects;
 
 /**
  *
- * @author jlombardo
+ * @author jerem
  */
 public class Author {
     private Integer authorId;

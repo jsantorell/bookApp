@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  *
- * @author jlombardo
+ * @author jerem
  */
 public class AuthorService {
     

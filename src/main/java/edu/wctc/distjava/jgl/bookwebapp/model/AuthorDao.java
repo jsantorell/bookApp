@@ -9,7 +9,7 @@ import java.util.Vector;
 
 /**
  *
- * @author jlombardo
+ * @author jerem
  */
 public class AuthorDao {
     private String driverClass;
