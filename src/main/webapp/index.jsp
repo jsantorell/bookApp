@@ -1,21 +1,40 @@
-<%-- 
-    Document   : index
-    Created on : Sep 19, 2017, 8:01:39 PM
-    Author     : jerem
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <style>
+            body {
+                padding-top: 50px;
+                padding-bottom: 20px;
+            }
+        </style>
+        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/stylings.css">
+
         <title>Book Web Application</title>
     </head>
     <body>
-        <h1>Pick a Task</h1>
-        <ul>
-            <li><a href="authorController?action=list">View all Authors</a></li>
-            <li>...more to come</li>
-        </ul>
+        <div class="container">
+            <ul class="nav nav-tabs">
+                <li role="presentation" class="active"><a href="index.jsp">Home</a></li>
+                <li role="presentation"><a href="authorController?action=list">View All Authors</a></li>
+                <li role="presentation"><a href="authorController?action=add">Add an Author</a></li>
+                 <li role="presentation"><a href="authorController?action=update">Update an Author</a></li>
+            </ul>
+            <p>Welcome</p>
+        </div>
+        <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
     </body>
 </html>

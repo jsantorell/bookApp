@@ -1,4 +1,5 @@
-package edu.wctc.distjava.jgl.bookwebapp.model;
+package edu.wctc.distjava.jgl.bookwebapp.modelCRUD;
+
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -33,6 +34,7 @@ public class MySqlDataAccess implements DataAccess {
         
     }
     
+    @Override
     public void openConnection() 
             throws ClassNotFoundException, SQLException {
         
@@ -40,28 +42,27 @@ public class MySqlDataAccess implements DataAccess {
         conn = DriverManager.getConnection(url, userName, password);
     }
     
+    @Override
     public void closeConnection() throws SQLException {
         if(conn !=null) conn.close();
     }
     
     /**
      * Returns records from a table. Requires and open connection.
+     * @param query
      * @param tableName
      * @param maxRecords
      * @return
      * @throws SQLException 
+     * @throws java.lang.ClassNotFoundException 
      */
-    public List<Map<String,Object>> getAllRecords(String tableName, int maxRecords) 
+    @Override
+    public List<Map<String,Object>> DatabaseQuery(String query) 
             throws SQLException, ClassNotFoundException {
         
         List<Map<String,Object>> rawData = new Vector<>();
-        String sql = "";
-        
-        if(maxRecords > ALL_RECORDS) {
-            sql = "select * from " + tableName + " limit " + maxRecords;
-        } else {
-            sql = "select * from " + tableName;
-        }
+        String sql = query;
+
         
         openConnection();
         stmt = conn.createStatement();
@@ -83,10 +84,29 @@ public class MySqlDataAccess implements DataAccess {
         
         return rawData;
     }
+    
+    
+    @Override
+    public int InsertUpdateDelete(String query) throws ClassNotFoundException, SQLException{
+    
+    String sql = query;
 
+        
+        openConnection();
+        stmt = conn.createStatement();
+        int rowsAffected = stmt.executeUpdate(sql);
+        closeConnection();
+    
+        return rowsAffected;
+    
+    
+    }
+
+    @Override
     public String getDriverClass() {
         return driverClass;
     }
+
 
     public final void setDriverClass(String driverClass) {
         this.driverClass = driverClass;
@@ -120,13 +140,22 @@ public class MySqlDataAccess implements DataAccess {
     
 //    public static void main(String[] args) throws SQLException, ClassNotFoundException {
 //        
+//             PutQueryTogether p = PutQueryTogetherForMySql.getInstance();
+//        List<String> setOfColumns = new ArrayList<>();
+//            
+//            setOfColumns.add("author_name");
+//            setOfColumns.add("date_added");
+// 
+//            String query = p.BuildRetrieveString("book", "author", setOfColumns);
+//        
+//        
 //        DataAccess db = new MySqlDataAccess(
 //                "com.mysql.jdbc.Driver",
 //                "jdbc:mysql://localhost:3306/book",
 //                "root", ""
 //        );
-//        
-//        List<Map<String,Object>> list = db.getAllRecords("author", 0);
+//       
+//        List<Map<String,Object>> list = db.DatabaseQuery(query);
 //        
 //        for(Map<String,Object> rec : list) {
 //            System.out.println(rec);

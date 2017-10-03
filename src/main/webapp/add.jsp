@@ -28,27 +28,27 @@
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/stylings.css">
 
-        <title>Author List</title>
+        <title>Add an Author</title>
     </head>
     <body>
         <div class="container">
             <ul class="nav nav-tabs">
                 <li role="presentation"><a href="index.jsp">Home</a></li>
-                <li role="presentation" class="active"><a href="authorController?action=list">View All Authors</a></li>
-                <li role="presentation"><a href="authorController?action=add">Add an Author</a></li>
+                <li role="presentation"><a href="authorController?action=list">View All Authors</a></li>
+                <li role="presentation"class="active"><a href="authorController?action=add">Add an Author</a></li>
                   <li role="presentation"><a href="authorController?action=update">Update an Author</a></li>
             </ul>
-        <h1>Author List</h1>
+            <h1>Add an Author</h1>
+            <div>${rowsAffected}</div>
+            <form class="col-sm-12" method="POST" id="authorForm" action="authorController?action=tryadd">
 
-        <table border="1">
-            <c:forEach var="a" items="${authorList}">
-                <tr>
-                    <td>${a.authorId}</td>
-                    <td>${a.authorName}</td>
-                    <td><fmt:formatDate pattern = "yyyy-MM-dd" value = "${a.dateAdded}" /></td>
-                </tr>
-            </c:forEach>
-        </table>
+                <div class="form-group">
+                    <label for="AuthorName">Author's Name</label>
+                    <input type="text" class="form-control" id="AuthorName" name="AuthorName">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+            </form>
         </div>
         <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
     </body>

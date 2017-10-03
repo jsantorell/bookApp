@@ -1,6 +1,8 @@
-package edu.wctc.distjava.jgl.bookwebapp.model;
+package edu.wctc.distjava.jgl.bookwebapp.modelCRUD;
 
+import edu.wctc.distjava.jgl.bookwebapp.model.Author;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -17,26 +19,29 @@ public final class AuthorDao implements IAuthorDao {
     private String url;
     private String userName;
     private String password;
+    private DatabaseSource dSource;
     private DataAccess db;
 
     public AuthorDao(String driverClass, String url,
             String userName, String password,
-            DataAccess db) {
+            DatabaseSource db) {
 
         setDriverClass(driverClass);
         setUrl(url);
         setUserName(userName);
         setPassword(password);
-        setDb(db);
+        setdSource(db);
+        setDb(this.dSource);
     }
 
     @Override
-    public List<Author> getListOfAuthors()
+    public List<Author> getListOfAuthors(String query)
             throws SQLException, ClassNotFoundException {
 
+        
+
         List<Author> list = new Vector<>();
-        List<Map<String, Object>> rawData
-                = db.getAllRecords("author", 0);
+        List<Map<String, Object>> rawData = db.DatabaseQuery(query);
 
         Author author = null;
 
@@ -60,7 +65,7 @@ public final class AuthorDao implements IAuthorDao {
 
             Object objRecDate = rec.get("date_added");
 
-            Date recDate = objRecDate == null ? null : (Date)objRecDate;
+            Date recDate = objRecDate == null ? null : (Date) objRecDate;
 
             author.setDateAdded(recDate);
 
@@ -70,13 +75,41 @@ public final class AuthorDao implements IAuthorDao {
 
         return list;
     }
+    
+    
+    @Override
+    public int getRowsAffected(String query) throws SQLException, ClassNotFoundException{
+    
+    return db.InsertUpdateDelete(query);
+    
+    }
+
+    public DatabaseSource getdSource() {
+        return dSource;
+    }
+
+    public void setdSource(DatabaseSource dSource) {
+        this.dSource = dSource;
+    }
 
     public DataAccess getDb() {
         return db;
     }
 
-    public void setDb(DataAccess db) {
-        this.db = db;
+    public void setDb(DatabaseSource ds) {
+
+        switch (ds) {
+
+            case MYSQL:
+                this.db = new MySqlDataAccess(this.driverClass, this.url, this.userName, this.password);
+                break;
+            case MICROSOFT:
+                this.db = new MsSqlServerDataAccess(this.driverClass, this.url, this.userName, this.password);
+                break;
+            default:
+                this.db = null;
+
+        }
     }
 
     public String getDriverClass() {
@@ -111,23 +144,26 @@ public final class AuthorDao implements IAuthorDao {
         this.password = password;
     }
 
-    
     //INTEGRATION TESTING
-    
 //    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-//       
-//        AuthorDao adao = new AuthorDao("com.mysql.jdbc.Driver","jdbc:mysql://localhost:3306/book",
-//                "root", "", new MySqlDataAccess("com.mysql.jdbc.Driver",
-//                "jdbc:mysql://localhost:3306/book",
-//                "root", ""));
-//           List<Author> list = adao.getListOfAuthors();
 //        
-//        for(Author rec : list) {
+//        PutQueryTogether p = PutQueryTogetherForMySql.getInstance();
+//        List<String> setOfColumns = new ArrayList<>();
+//        setOfColumns.add("author_id");
+//        setOfColumns.add("author_name");
+//        setOfColumns.add("date_added");
+//
+//        String query = p.BuildRetrieveString("book", "author", setOfColumns);
+//        
+//        IAuthorDao adao = new AuthorDao("com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/book",
+//                "root", "", DatabaseSource.MYSQL);
+//
+//        List<Author> list = adao.getListOfAuthors(query);
+//
+//        for (Author rec : list) {
 //            System.out.println(rec.getAuthorId() + ", " + rec.getAuthorName() + ", " + rec.getDateAdded() + "\n");
 //        }
 //
 //    }
-    
-
 
 }
