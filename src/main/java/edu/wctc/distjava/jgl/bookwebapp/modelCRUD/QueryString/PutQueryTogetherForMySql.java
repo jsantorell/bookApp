@@ -1,4 +1,4 @@
-package edu.wctc.distjava.jgl.bookwebapp.modelCRUD;
+package edu.wctc.distjava.jgl.bookwebapp.modelCRUD.QueryString;
 
 import java.sql.SQLException;
 import java.util.List;

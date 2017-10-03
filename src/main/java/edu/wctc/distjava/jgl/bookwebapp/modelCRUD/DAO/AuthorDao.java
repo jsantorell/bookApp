@@ -1,6 +1,10 @@
-package edu.wctc.distjava.jgl.bookwebapp.modelCRUD;
+package edu.wctc.distjava.jgl.bookwebapp.modelCRUD.DAO;
 
 import edu.wctc.distjava.jgl.bookwebapp.model.Author;
+import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.DataAccess.DataAccess;
+import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.DatabaseSource;
+import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.DataAccess.MsSqlServerDataAccess;
+import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.DataAccess.MySqlDataAccess;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;

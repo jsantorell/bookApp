@@ -1,5 +1,8 @@
 package edu.wctc.distjava.jgl.bookwebapp.modelCRUD;
 
+import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.QueryString.PutQueryTogetherForMySql;
+import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.QueryString.PutQueryTogether;
+import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.DAO.IAuthorDao;
 import edu.wctc.distjava.jgl.bookwebapp.model.Author;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;

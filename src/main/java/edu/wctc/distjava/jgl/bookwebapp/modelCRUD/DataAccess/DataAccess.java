@@ -1,4 +1,4 @@
-package edu.wctc.distjava.jgl.bookwebapp.modelCRUD;
+package edu.wctc.distjava.jgl.bookwebapp.modelCRUD.DataAccess;
 
 import edu.wctc.distjava.jgl.bookwebapp.model.*;
 import java.sql.SQLException;

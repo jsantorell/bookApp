@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.wctc.distjava.jgl.bookwebapp.modelCRUD;
+package edu.wctc.distjava.jgl.bookwebapp.modelCRUD.DAO;
 
 import edu.wctc.distjava.jgl.bookwebapp.model.Author;
 import java.sql.SQLException;
