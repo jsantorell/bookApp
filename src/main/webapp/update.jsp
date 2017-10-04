@@ -40,7 +40,7 @@
             </ul>
             <h1>Edit Author</h1>
             <div>${rowsAffected}</div>
-            <form class="col-sm-12" method="POST" id="authorForm" action="authorController?action=tryupdates">
+            <form class="col-sm-12" method="POST" id="authorForm" action="authorController?action=tryupdate">
                 <div class="form-group">
                     <label for="AuthorName">Author's ID</label>
                     <input type="text" class="form-control" id="AuthorID" name="AuthorID">

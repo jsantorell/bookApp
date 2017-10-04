@@ -66,16 +66,16 @@ public final class AuthorService {
         return authorDAO.getRowsAffected(query);
     }
 
-    public int DeleteAuthor() throws SQLException, ClassNotFoundException {
+    public int DeleteAuthor(String id) throws SQLException, ClassNotFoundException {
 
-        int id = 4;
+      
 
         String query = p.BuildDeleteString(this.dbName, this.tbName, id);
 
         return authorDAO.getRowsAffected(query);
     }
 
-    public int UpdateAuthor(String data, String columnName, int id) throws SQLException, ClassNotFoundException {
+    public int UpdateAuthor(String data, String columnName, String id) throws SQLException, ClassNotFoundException {
         //Once a UI is created i will add the inputs in as these values.
         
         

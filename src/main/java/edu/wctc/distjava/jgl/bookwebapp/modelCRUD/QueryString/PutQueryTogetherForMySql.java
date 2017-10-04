@@ -104,7 +104,7 @@ public class PutQueryTogetherForMySql implements PutQueryTogether {
 
     @Override
     public String BuildUpdateString(String databaseName, String tableName,
-            String columnName, String value, String idColumnName, int id) {
+            String columnName, String value, String idColumnName, String id) {
    
         return "UPDATE `" + databaseName + "`.`" + tableName + "` SET `"
                 + columnName + "`='" + value + "' WHERE `" + idColumnName + "`='" + id + "';";
@@ -112,7 +112,7 @@ public class PutQueryTogetherForMySql implements PutQueryTogether {
     }
 
     @Override
-    public String BuildDeleteString(String databaseName, String tableName, int id) {
+    public String BuildDeleteString(String databaseName, String tableName, String id) {
         return "DELETE FROM `" + databaseName + "`.`" + tableName + "` WHERE `author_id`='" + id + "';";
     }
 

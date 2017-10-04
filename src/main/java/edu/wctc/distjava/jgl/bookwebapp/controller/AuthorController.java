@@ -28,6 +28,7 @@ public class AuthorController extends HttpServlet {
 
     private static final String TRY_ADD = "tryadd";
     private static final String TRY_UPDATE = "tryupdate";
+    private static final String TRY_DELETE = "trydelete";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -56,9 +57,19 @@ public class AuthorController extends HttpServlet {
                     userName, password, DatabaseSource.MYSQL));
 
             if (action.equalsIgnoreCase(LIST_ACTION)) {
-                
+
                 List<Author> authorList = authorService.getAuthorList();
                 request.setAttribute("authorList", authorList);
+                destination = "authorList.jsp";
+            }
+            if (action.equalsIgnoreCase(TRY_DELETE)) {
+                String id = request.getParameter("AuthorID");
+
+                int rowsAffected = authorService.DeleteAuthor(id);
+                List<Author> authorList = authorService.getAuthorList();
+                request.setAttribute("authorList", authorList);
+                request.setAttribute("rowsAffected", rowsAffected + " Record(s) Deleted");
+
                 destination = "authorList.jsp";
             }
             if (action.equalsIgnoreCase(ADD_ACTION)) {
@@ -70,15 +81,15 @@ public class AuthorController extends HttpServlet {
                 request.setAttribute("rowsAffected", rowsAffected + " Record(s) Added");
                 destination = "add.jsp";
             }
-            if(action.equalsIgnoreCase(UPDATE_ACTION)){
-            
-            destination = "update.jsp";
+            if (action.equalsIgnoreCase(UPDATE_ACTION)) {
+
+                destination = "update.jsp";
             }
             if (action.equalsIgnoreCase(TRY_UPDATE)) {//Still Working On this ... 
                 //... Currently not Working
                 String aName = request.getParameter("AuthorName");
                 String date = request.getParameter("DateAdded");
-                int id = Integer.parseInt(request.getParameter("AuthorID").trim());
+                String id = request.getParameter("AuthorID");
                 int rowsAffected = 0;
                 if (date.length() > 9) {
 
