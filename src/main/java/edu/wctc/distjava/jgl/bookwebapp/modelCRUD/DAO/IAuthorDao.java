@@ -17,5 +17,6 @@ public interface IAuthorDao {
 
     List<Author> getListOfAuthors(String query) throws SQLException, ClassNotFoundException;
     public int getRowsAffected(String query) throws SQLException, ClassNotFoundException;
+    public List<String> getStringOfCols();
     
 }

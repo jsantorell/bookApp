@@ -25,7 +25,19 @@ public final class AuthorDao implements IAuthorDao {
     private String password;
     private DatabaseSource dSource;
     private DataAccess db;
+    private List<String> stringOfCols = new ArrayList<>();
 
+    @Override
+    public List<String> getStringOfCols() {
+        return stringOfCols;
+    }
+
+    public void setStringOfCols(List<String> stringOfCols) {
+        this.stringOfCols = stringOfCols;
+    }
+
+    
+    
     public AuthorDao(String driverClass, String url,
             String userName, String password,
             DatabaseSource db) {
@@ -36,6 +48,8 @@ public final class AuthorDao implements IAuthorDao {
         setPassword(password);
         setdSource(db);
         setDb(this.dSource);
+        this.stringOfCols.add("author_name");
+        this.stringOfCols.add("date_added");
     }
 
     @Override

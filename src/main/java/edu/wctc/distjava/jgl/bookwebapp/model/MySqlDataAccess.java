@@ -83,6 +83,31 @@ public class MySqlDataAccess implements DataAccess {
         
         return rawData;
     }
+    
+    
+    public int deleteRecordById(String tableName, String pkColName, Object pk) throws ClassNotFoundException, SQLException{
+    
+    
+        String sql = "DELETE FROM " + tableName + " WHERE " + pkColName + " = ";
+    
+        if(pk instanceof String){
+        
+            sql += "'" + pk.toString() + "'";
+        }
+        
+        else {
+        
+            sql +=  Long.parseLong(pk.toString());
+        }
+        
+        
+        openConnection();
+        stmt = conn.createStatement();
+        int recsDeleted = stmt.executeUpdate(sql);
+        closeConnection();
+        return recsDeleted;
+        
+    }
 
     public String getDriverClass() {
         return driverClass;
@@ -118,20 +143,20 @@ public class MySqlDataAccess implements DataAccess {
         this.password = password;
     }
     
-//    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-//        
-//        DataAccess db = new MySqlDataAccess(
-//                "com.mysql.jdbc.Driver",
-//                "jdbc:mysql://localhost:3306/book",
-//                "root", ""
-//        );
-//        
-//        List<Map<String,Object>> list = db.getAllRecords("author", 0);
-//        
-//        for(Map<String,Object> rec : list) {
-//            System.out.println(rec);
-//        }
-//        
-//    }
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        
+        DataAccess db = new MySqlDataAccess(
+                "com.mysql.jdbc.Driver",
+                "jdbc:mysql://localhost:3306/book",
+                "root", ""
+        );
+        int recs = db.deleteRecordById("author", "author_id", 1);
+        List<Map<String,Object>> list = db.getAllRecords("author", 0);
+        System.out.println(recs);
+        for(Map<String,Object> rec : list) {
+            System.out.println(rec);
+        }
+        
+    }
     
 }

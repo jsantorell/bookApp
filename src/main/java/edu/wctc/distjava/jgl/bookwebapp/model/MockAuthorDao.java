@@ -37,4 +37,9 @@ public final class MockAuthorDao implements IAuthorDao {
         }
 
     }
+
+    @Override
+    public int removeAuthorById(Integer id) throws ClassNotFoundException, SQLException {
+      return 1;
+    }
 }

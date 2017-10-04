@@ -70,6 +70,15 @@ public final class AuthorDao implements IAuthorDao {
 
         return list;
     }
+    
+    @Override
+    public int removeAuthorById(Integer id) throws ClassNotFoundException, SQLException{
+    if(id == null || id < 1){
+        throw new IllegalArgumentException(" id must be greater than 0");
+    }
+    return db.deleteRecordById("author", "author_id", id);
+    
+    }
 
     public DataAccess getDb() {
         return db;

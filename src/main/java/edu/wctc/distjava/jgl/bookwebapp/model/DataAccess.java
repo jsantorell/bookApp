@@ -20,7 +20,7 @@ public interface DataAccess {
      * @throws SQLException
      */
     List<Map<String, Object>> getAllRecords(String tableName, int maxRecords) throws SQLException, ClassNotFoundException;
-
+public int deleteRecordById(String tableName, String pkColName, Object pk) throws ClassNotFoundException, SQLException;
     String getDriverClass();
 
     String getPassword();

@@ -38,10 +38,10 @@ public final class AuthorService {
 
     public List<Author> getAuthorList() throws ClassNotFoundException, SQLException {
 
-        List<String> setOfColumns = new ArrayList<>();
+        List<String> setOfColumns = authorDAO.getStringOfCols();
         setOfColumns.add("author_id");
-        setOfColumns.add("author_name");
-        setOfColumns.add("date_added");
+       
+        
 
         String query = p.BuildRetrieveString(this.dbName, this.tbName, setOfColumns);
         System.out.println(query);
@@ -51,10 +51,7 @@ public final class AuthorService {
     }
 
     public int AddAuthor(String name) throws SQLException, ClassNotFoundException {
-        List<String> setOfColumns = new ArrayList<>();
-
-        setOfColumns.add("author_name");
-        setOfColumns.add("date_added");
+        List<String> setOfColumns = authorDAO.getStringOfCols();
         List<List<String>> dataSets = new ArrayList<>();
         List<String> data = new ArrayList<>();
         data.add(name);

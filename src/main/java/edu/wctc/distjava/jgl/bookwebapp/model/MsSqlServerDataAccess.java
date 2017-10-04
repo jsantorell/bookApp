@@ -142,5 +142,10 @@ public class MsSqlServerDataAccess implements DataAccess {
         }
         
     }
+
+    @Override
+    public int deleteRecordById(String tableName, String pkColName, Object pk) throws ClassNotFoundException, SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
