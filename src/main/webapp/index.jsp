@@ -29,7 +29,7 @@
         <div class="container">
             <ul class="nav nav-tabs">
                 <li role="presentation" class="active"><a href="index.jsp">Home</a></li>
-                <li role="presentation"><a href="authorController?action=list">View All Authors</a></li>
+                <li role="presentation"><a href="authorController?action=list">View/Delete Authors</a></li>
                 <li role="presentation"><a href="authorController?action=add">Add an Author</a></li>
                  <li role="presentation"><a href="authorController?action=update">Update an Author</a></li>
             </ul>
