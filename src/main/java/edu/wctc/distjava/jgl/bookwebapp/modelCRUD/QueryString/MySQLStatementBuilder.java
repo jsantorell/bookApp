@@ -8,70 +8,55 @@ import java.util.Map;
  *
  * @author Jeremy Santorelli
  */
-public class PutQueryTogetherForMySql implements PutQueryTogether {
+public class MySQLStatementBuilder implements SQLStatementBuilder {
 
-    private static PutQueryTogetherForMySql query;
+    private static MySQLStatementBuilder query;
 
-    private PutQueryTogetherForMySql() {
+    private MySQLStatementBuilder() {
     }
 
     /**
      *
      * @return a ParkingFactory and ensures only one was made.
      */
-    public static PutQueryTogetherForMySql getInstance() {
+    public static MySQLStatementBuilder getInstance() {
 
-        if (PutQueryTogetherForMySql.query == null) {
-            PutQueryTogetherForMySql.query = new PutQueryTogetherForMySql();
+        if (MySQLStatementBuilder.query == null) {
+            MySQLStatementBuilder.query = new MySQLStatementBuilder();
 
         }
 
-        return PutQueryTogetherForMySql.query;
+        return MySQLStatementBuilder.query;
 
     }
 
     @Override
-    public String BuildCreateString(String databaseName, String tableName, List<String> columns, List<List<String>> dataSets) {
+    public String BuildCreateString(String databaseName, String tableName, List<String> columns) {
 
         String columnsSet = "";
         String queryString = "";
+        String values = "VALUES ( ";
 
         for (int i = 0; i < columns.size(); i++) {
 
-            if (columns.get(i).equals("*")) {
-
-                columnsSet += "*";
-
-            } else if (i == 0) {
+            if (i == 0) {
 
                 columnsSet += "`" + columns.get(i) + "`";
+                values += "? ";
 
             } else {
 
                 columnsSet += ",`" + columns.get(i) + "`";
+                values += ", ? ";
             }
 
         }
 
         String c = "INSERT INTO `" + databaseName + "`.`" + tableName + "` (" + columnsSet + ")";
 
-        for (List<String> rec : dataSets) {//Will need to fix in the future for integers, doubles, etc.
 
-            String insertValues = "";
-
-            for (int value = 0; value < rec.size(); value++) {
-
-                if (value == 0) {
-
-                    insertValues += "'" + rec.get(value) + "'";
-                } else {
-
-                    insertValues += ",'" + rec.get(value) + "'";
-                }
-            }
-
-            queryString += c + "VALUES (" + insertValues + ");";
-        }
+            queryString += c + values + ");";
+        
 
         return queryString;
     }
@@ -104,10 +89,10 @@ public class PutQueryTogetherForMySql implements PutQueryTogether {
 
     @Override
     public String BuildUpdateString(String databaseName, String tableName,
-            String columnName, String value, String idColumnName, String id) {
+            String columnName, String idColumnName, String id) {
    
         return "UPDATE `" + databaseName + "`.`" + tableName + "` SET `"
-                + columnName + "`='" + value + "' WHERE `" + idColumnName + "`='" + id + "';";
+                + columnName + "`= ? " + " WHERE `" + idColumnName + "`='" + id + "';";
 
     }
 

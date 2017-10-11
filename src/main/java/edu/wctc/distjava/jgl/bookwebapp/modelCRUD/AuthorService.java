@@ -1,9 +1,9 @@
 package edu.wctc.distjava.jgl.bookwebapp.modelCRUD;
 
-import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.QueryString.PutQueryTogetherForMySql;
-import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.QueryString.PutQueryTogether;
+import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.QueryString.MySQLStatementBuilder;
 import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.DAO.IAuthorDao;
 import edu.wctc.distjava.jgl.bookwebapp.model.Author;
+import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.DAO.AuthorDao;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
+import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.QueryString.SQLStatementBuilder;
 
 /**
  *
@@ -20,7 +21,7 @@ import javax.swing.JOptionPane;
 public final class AuthorService {
 
     private IAuthorDao authorDAO;
-    private PutQueryTogether p = PutQueryTogetherForMySql.getInstance();
+    private SQLStatementBuilder p = MySQLStatementBuilder.getInstance();
     private String dbName = "book";
     private String tbName = "author";
 
@@ -40,12 +41,10 @@ public final class AuthorService {
 
         List<String> setOfColumns = authorDAO.getStringOfCols();
         setOfColumns.add("author_id");
-       
-        
 
         String query = p.BuildRetrieveString(this.dbName, this.tbName, setOfColumns);
-        System.out.println(query);
-
+        //System.out.println(query);
+        
         return authorDAO.getListOfAuthors(query);
 
     }
@@ -58,9 +57,9 @@ public final class AuthorService {
         data.add(getFormattedDateNow());
         dataSets.add(data);
 
-        String query = p.BuildCreateString(this.dbName, this.tbName, setOfColumns, dataSets);
+        String query = p.BuildCreateString(this.dbName, this.tbName, setOfColumns);
 
-        return authorDAO.getRowsAffected(query);
+        return authorDAO.insertAuthor(query, dataSets);
     }
 
     public int DeleteAuthor(String id) throws SQLException, ClassNotFoundException {
@@ -69,7 +68,7 @@ public final class AuthorService {
 
         String query = p.BuildDeleteString(this.dbName, this.tbName, id);
 
-        return authorDAO.getRowsAffected(query);
+        return authorDAO.deleteAuthor(query);
     }
 
     public int UpdateAuthor(String data, String columnName, String id) throws SQLException, ClassNotFoundException {
@@ -77,11 +76,10 @@ public final class AuthorService {
         
         
         String columnIDName = "author_id";
-        String value = data;
 
-        String query = p.BuildUpdateString(this.dbName, this.tbName, columnName, value, columnIDName, id);
+        String query = p.BuildUpdateString(this.dbName, this.tbName, columnName, columnIDName, id);
 
-        return authorDAO.getRowsAffected(query);
+        return authorDAO.updateAuthor(query, data);
     }
 
     public String getFormattedDateNow() {
@@ -93,9 +91,8 @@ public final class AuthorService {
     }
 
 //    Integration Service
-//    public static void main(String[] args) throws ClassNotFoundException, SQLException {
-//        AuthorService as = new AuthorService(new AuthorDao("com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/book",
-//                "root", "", DatabaseSource.MYSQL));
+//    public static void main(String[] args) throws ClassNotFoundException, SQLException, Exception {
+//        AuthorService as = new AuthorService(new AuthorDao(DatabaseSource.MYSQL));
 //
 //        List<Author> list = as.getAuthorList();
 //

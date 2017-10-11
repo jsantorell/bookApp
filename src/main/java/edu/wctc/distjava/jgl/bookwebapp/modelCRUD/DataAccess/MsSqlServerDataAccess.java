@@ -140,8 +140,20 @@ public class MsSqlServerDataAccess implements DataAccess {
 //    }
 
     @Override
-    public int InsertUpdateDelete(String tableName) throws SQLException, ClassNotFoundException {
+    public int InsertRecord(String query, List<List<String>> dataSets) throws SQLException, ClassNotFoundException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public int DeleteRecord(String query) throws SQLException, ClassNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int UpdateRecord(String query, Object dataSet) throws SQLException, ClassNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+
     
 }

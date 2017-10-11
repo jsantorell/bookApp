@@ -15,13 +15,19 @@ public interface DataAccess {
 
     /**
      * Returns records from a table. Requires and open connection.
+     *
      * @param tableName
      * @param maxRecords
      * @return
      * @throws SQLException
      */
     List<Map<String, Object>> DatabaseQuery(String tableName) throws SQLException, ClassNotFoundException;
-    int InsertUpdateDelete(String tableName) throws SQLException, ClassNotFoundException;
+
+    int InsertRecord(String query, List<List<String>> dataSets) throws SQLException, ClassNotFoundException;
+
+    int UpdateRecord(String query, Object dataSet) throws SQLException, ClassNotFoundException;
+
+    int DeleteRecord(String query) throws SQLException, ClassNotFoundException;
 
     String getDriverClass();
 
@@ -40,5 +46,5 @@ public interface DataAccess {
     void setUrl(String url);
 
     void setUserName(String userName);
-    
+
 }

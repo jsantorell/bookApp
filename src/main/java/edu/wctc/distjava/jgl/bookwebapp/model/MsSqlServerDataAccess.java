@@ -18,23 +18,13 @@ public class MsSqlServerDataAccess implements DataAccess {
     private Connection conn;
     private Statement stmt;
     private ResultSet rs;
-    private String driverClass;
-    private String url;
-    private String userName;
-    private String password;
+
     
-    public MsSqlServerDataAccess(String driverClass, 
-            String url, String userName, String password) {
-        
-        setDriverClass(driverClass);
-        setUrl(url);
-        setUserName(userName);
-        setPassword(password);
-        
-    }
+
     
     @Override
-    public void openConnection() 
+    public void openConnection(String driverClass, 
+            String url, String userName, String password) 
             throws ClassNotFoundException, SQLException {
         
         Class.forName (driverClass);
@@ -66,7 +56,7 @@ public class MsSqlServerDataAccess implements DataAccess {
             sql = "select * from " + tableName;
         }
         
-        openConnection();
+     
         stmt = conn.createStatement();
         rs = stmt.executeQuery(sql);
         
@@ -82,70 +72,19 @@ public class MsSqlServerDataAccess implements DataAccess {
             rawData.add(record);
         }
         
-        closeConnection();
         
         return rawData;
-    }
-
-    @Override
-    public String getDriverClass() {
-        return driverClass;
-    }
-
-    @Override
-    public final void setDriverClass(String driverClass) {
-        this.driverClass = driverClass;
-    }
-
-    @Override
-    public String getUrl() {
-        return url;
-    }
-
-    @Override
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    @Override
-    public String getUserName() {
-        return userName;
-    }
-
-    @Override
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        
-        MsSqlServerDataAccess db = new MsSqlServerDataAccess(
-                "org.apache.derby.jdbc.ClientDriver",
-                "jdbc:derby://localhost:1527/sample",
-                "app", "app"
-        );
-        
-        List<Map<String,Object>> list = db.getAllRecords("CUSTOMER", 0);
-        
-        for(Map<String,Object> rec : list) {
-            System.out.println(rec);
-        }
-        
     }
 
     @Override
     public int deleteRecordById(String tableName, String pkColName, Object pk) throws ClassNotFoundException, SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public int CreateRecord(String tableName, List<String> colNames, List<Object> colValues) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     
 }

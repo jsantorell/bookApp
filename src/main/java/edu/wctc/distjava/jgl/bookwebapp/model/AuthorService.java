@@ -34,17 +34,15 @@ public final class AuthorService {
 
     //Integration Service
     
-//    public static void main(String[] args) throws ClassNotFoundException, SQLException {
-//        AuthorService as = new AuthorService(new AuthorDao("com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/book",
-//                "root", "", new MySqlDataAccess("com.mysql.jdbc.Driver",
-//                        "jdbc:mysql://localhost:3306/book",
-//                        "root", "")));
-//
-//        List<Author> list = as.getAuthorList();
-//
-//        for (Author rec : list) {
-//            System.out.println(rec.getAuthorId() + ", " + rec.getAuthorName() + ", " + rec.getDateAdded() + "\n");
-//        }
-//
-//    }
+    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+        AuthorService as = new AuthorService(new AuthorDao("com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/book",
+                "root", "", new MySqlDataAccess()));
+
+        List<Author> list = as.getAuthorList();
+
+        for (Author rec : list) {
+            System.out.println(rec.getAuthorId() + ", " + rec.getAuthorName() + ", " + rec.getDateAdded() + "\n");
+        }
+
+    }
 }

@@ -21,22 +21,10 @@ public interface DataAccess {
      */
     List<Map<String, Object>> getAllRecords(String tableName, int maxRecords) throws SQLException, ClassNotFoundException;
 public int deleteRecordById(String tableName, String pkColName, Object pk) throws ClassNotFoundException, SQLException;
-    String getDriverClass();
 
-    String getPassword();
+    void openConnection(String driverClass,
+            String url, String userName, String password) throws ClassNotFoundException, SQLException;
 
-    String getUrl();
-
-    String getUserName();
-
-    void openConnection() throws ClassNotFoundException, SQLException;
-
-    void setDriverClass(String driverClass);
-
-    void setPassword(String password);
-
-    void setUrl(String url);
-
-    void setUserName(String userName);
+    public int CreateRecord(String tableName, List<String> colNames, List<Object> colValues)throws ClassNotFoundException, SQLException ;
     
 }

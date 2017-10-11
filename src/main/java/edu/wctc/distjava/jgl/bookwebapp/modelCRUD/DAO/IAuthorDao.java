@@ -16,7 +16,13 @@ import java.util.List;
 public interface IAuthorDao {
 
     List<Author> getListOfAuthors(String query) throws SQLException, ClassNotFoundException;
-    public int getRowsAffected(String query) throws SQLException, ClassNotFoundException;
+
+    public int insertAuthor(String query, List<List<String>> dataSets) throws SQLException, ClassNotFoundException;
+
+    public int updateAuthor(String query, Object value) throws SQLException, ClassNotFoundException;
+
+    public int deleteAuthor(String query) throws SQLException, ClassNotFoundException;
+
     public List<String> getStringOfCols();
-    
+
 }

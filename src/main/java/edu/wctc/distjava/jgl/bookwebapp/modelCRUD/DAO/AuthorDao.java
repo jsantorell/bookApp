@@ -1,15 +1,19 @@
 package edu.wctc.distjava.jgl.bookwebapp.modelCRUD.DAO;
 
 import edu.wctc.distjava.jgl.bookwebapp.model.Author;
+import edu.wctc.distjava.jgl.bookwebapp.model.config.ConfigurationParser;
 import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.DataAccess.DataAccess;
 import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.DatabaseSource;
 import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.DataAccess.MsSqlServerDataAccess;
 import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.DataAccess.MySqlDataAccess;
+import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.QueryString.MySQLStatementBuilder;
+import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.QueryString.SQLStatementBuilder;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.Vector;
 
@@ -19,6 +23,8 @@ import java.util.Vector;
  */
 public final class AuthorDao implements IAuthorDao {
 
+    private ConfigurationParser c = ConfigurationParser.getInstance();
+    private Properties properties;
     private String driverClass;
     private String url;
     private String userName;
@@ -36,17 +42,13 @@ public final class AuthorDao implements IAuthorDao {
         this.stringOfCols = stringOfCols;
     }
 
-    
-    
-    public AuthorDao(String driverClass, String url,
-            String userName, String password,
-            DatabaseSource db) {
-
-        setDriverClass(driverClass);
-        setUrl(url);
-        setUserName(userName);
-        setPassword(password);
-        setdSource(db);
+    public AuthorDao(DatabaseSource dSource) throws Exception {
+        properties = c.getConfigutationProperties();
+        this.driverClass = properties.getProperty("driver.class");
+        this.url = properties.getProperty("sql.db");
+        this.userName = properties.getProperty("u");
+        this.password = properties.getProperty("p");
+        setdSource(dSource);
         setDb(this.dSource);
         this.stringOfCols.add("author_name");
         this.stringOfCols.add("date_added");
@@ -55,8 +57,6 @@ public final class AuthorDao implements IAuthorDao {
     @Override
     public List<Author> getListOfAuthors(String query)
             throws SQLException, ClassNotFoundException {
-
-        
 
         List<Author> list = new Vector<>();
         List<Map<String, Object>> rawData = db.DatabaseQuery(query);
@@ -93,13 +93,22 @@ public final class AuthorDao implements IAuthorDao {
 
         return list;
     }
-    
-    
+
     @Override
-    public int getRowsAffected(String query) throws SQLException, ClassNotFoundException{
-    
-    return db.InsertUpdateDelete(query);
-    
+    public int insertAuthor(String query, List<List<String>> dataSets) throws SQLException, ClassNotFoundException {
+
+        return db.InsertRecord(query, dataSets);
+
+    }
+
+    @Override
+    public int updateAuthor(String query, Object value) throws SQLException, ClassNotFoundException {
+        return db.UpdateRecord(query, value);
+    }
+
+    @Override
+    public int deleteAuthor(String query) throws SQLException, ClassNotFoundException {
+        return db.DeleteRecord(query);
     }
 
     public DatabaseSource getdSource() {
@@ -114,12 +123,12 @@ public final class AuthorDao implements IAuthorDao {
         return db;
     }
 
-    public void setDb(DatabaseSource ds) {
+    public void setDb(DatabaseSource ds) throws Exception {
 
         switch (ds) {
 
             case MYSQL:
-                this.db = new MySqlDataAccess(this.driverClass, this.url, this.userName, this.password);
+                this.db = new MySqlDataAccess();
                 break;
             case MICROSOFT:
                 this.db = new MsSqlServerDataAccess(this.driverClass, this.url, this.userName, this.password);
@@ -163,18 +172,17 @@ public final class AuthorDao implements IAuthorDao {
     }
 
     //INTEGRATION TESTING
-//    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-//        
-//        PutQueryTogether p = PutQueryTogetherForMySql.getInstance();
+//    public static void main(String[] args) throws SQLException, ClassNotFoundException, Exception {
+//
+//        SQLStatementBuilder p = MySQLStatementBuilder.getInstance();
 //        List<String> setOfColumns = new ArrayList<>();
 //        setOfColumns.add("author_id");
 //        setOfColumns.add("author_name");
 //        setOfColumns.add("date_added");
 //
 //        String query = p.BuildRetrieveString("book", "author", setOfColumns);
-//        
-//        IAuthorDao adao = new AuthorDao("com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/book",
-//                "root", "", DatabaseSource.MYSQL);
+//
+//        IAuthorDao adao = new AuthorDao(DatabaseSource.MYSQL);
 //
 //        List<Author> list = adao.getListOfAuthors(query);
 //
@@ -183,5 +191,4 @@ public final class AuthorDao implements IAuthorDao {
 //        }
 //
 //    }
-
 }

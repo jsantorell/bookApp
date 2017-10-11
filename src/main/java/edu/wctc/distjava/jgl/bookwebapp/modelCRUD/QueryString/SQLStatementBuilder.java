@@ -8,12 +8,12 @@ import java.util.Map;
  *
  * @author Jeremy Santorelli
  */
-public interface PutQueryTogether {
+public interface SQLStatementBuilder {
     
     
-    public String BuildCreateString(String databaseName, String tableName, List<String> columns, List<List<String>> dataSets);
+    public String BuildCreateString(String databaseName, String tableName, List<String> columns);
     public String BuildRetrieveString(String databaseName, String tableName, List<String> columns);
-    public String BuildUpdateString(String databaseName, String tableName, String columnName, String Value, String idColumnName, String id);
+    public String BuildUpdateString(String databaseName, String tableName, String columnName, String idColumnName, String id);
     public String BuildDeleteString(String databaseName, String tableName, String id);
     
 

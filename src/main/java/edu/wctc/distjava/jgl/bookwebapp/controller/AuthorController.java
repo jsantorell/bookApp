@@ -3,6 +3,7 @@ package edu.wctc.distjava.jgl.bookwebapp.controller;
 import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.DAO.AuthorDao;
 import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.*;
 import edu.wctc.distjava.jgl.bookwebapp.model.Author;
+import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.DAO.IAuthorDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class AuthorController extends HttpServlet {
     private static final String TRY_ADD = "tryadd";
     private static final String TRY_UPDATE = "tryupdate";
     private static final String TRY_DELETE = "trydelete";
+    private static final long serialVersionUID = 1L;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,14 +49,10 @@ public class AuthorController extends HttpServlet {
 
         try {
             String action = request.getParameter(ACTION);
+            
+            IAuthorDao adao = new AuthorDao(DatabaseSource.MYSQL);
 
-            String driver = "com.mysql.jdbc.Driver";
-            String database = "jdbc:mysql://localhost:3306/book";
-            String userName = "root";
-            String password = "";
-
-            AuthorService authorService = new AuthorService(new AuthorDao(driver, database,
-                    userName, password, DatabaseSource.MYSQL));
+            AuthorService authorService = new AuthorService(adao);
 
             if (action.equalsIgnoreCase(LIST_ACTION)) {
 
@@ -85,8 +83,7 @@ public class AuthorController extends HttpServlet {
 
                 destination = "update.jsp";
             }
-            if (action.equalsIgnoreCase(TRY_UPDATE)) {//Still Working On this ... 
-                //... Currently not Working
+            if (action.equalsIgnoreCase(TRY_UPDATE)) {
                 String aName = request.getParameter("AuthorName");
                 String date = request.getParameter("DateAdded");
                 String id = request.getParameter("AuthorID");
@@ -107,6 +104,7 @@ public class AuthorController extends HttpServlet {
             }
 
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             destination = "/error.jsp";
             request.setAttribute("errMessage", e.getMessage());
         }
