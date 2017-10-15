@@ -17,9 +17,9 @@ public interface DataAccess {
      * Returns records from a table. Requires and open connection.
      *
      * @param tableName
-     * @param maxRecords
      * @return
      * @throws SQLException
+     * @throws java.lang.ClassNotFoundException
      */
     List<Map<String, Object>> DatabaseQuery(String tableName) throws SQLException, ClassNotFoundException;
 
@@ -29,22 +29,7 @@ public interface DataAccess {
 
     int DeleteRecord(String query) throws SQLException, ClassNotFoundException;
 
-    String getDriverClass();
-
-    String getPassword();
-
-    String getUrl();
-
-    String getUserName();
-
     void openConnection() throws ClassNotFoundException, SQLException;
 
-    void setDriverClass(String driverClass);
-
-    void setPassword(String password);
-
-    void setUrl(String url);
-
-    void setUserName(String userName);
 
 }

@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.QueryString.SQLStatementBuilder;
+import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.QueryString.Where;
 
 /**
  *
@@ -37,14 +38,25 @@ public final class AuthorService {
         this.authorDAO = authorDAO;
     }
 
+    public List<Author> getAuthorByID(String colName, String comp, String val) throws ClassNotFoundException, SQLException {
+
+        List<String> setOfColumns = authorDAO.getStringOfCols();
+        setOfColumns.add("author_id");
+        p = new Where(p, colName, comp, val);
+        String query = p.BuildRetrieveString(this.dbName, this.tbName, setOfColumns);
+        //System.out.println(query);
+
+        return authorDAO.getListOfAuthors(query);
+
+    }
+
     public List<Author> getAuthorList() throws ClassNotFoundException, SQLException {
 
         List<String> setOfColumns = authorDAO.getStringOfCols();
         setOfColumns.add("author_id");
-
         String query = p.BuildRetrieveString(this.dbName, this.tbName, setOfColumns);
         //System.out.println(query);
-        
+
         return authorDAO.getListOfAuthors(query);
 
     }
@@ -64,25 +76,21 @@ public final class AuthorService {
 
     public int DeleteAuthor(String id) throws SQLException, ClassNotFoundException {
 
-      
-
         String query = p.BuildDeleteString(this.dbName, this.tbName, id);
 
         return authorDAO.deleteAuthor(query);
     }
 
     public int UpdateAuthor(String data, String columnName, String id) throws SQLException, ClassNotFoundException {
-        //Once a UI is created i will add the inputs in as these values.
-        
-        
+
         String columnIDName = "author_id";
 
         String query = p.BuildUpdateString(this.dbName, this.tbName, columnName, columnIDName, id);
-
+        //System.out.println(query);
         return authorDAO.updateAuthor(query, data);
     }
 
-    public String getFormattedDateNow() {
+    public String getFormattedDateNow() {//Put this elsewhere in the future
 
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -92,16 +100,23 @@ public final class AuthorService {
 
 //    Integration Service
 //    public static void main(String[] args) throws ClassNotFoundException, SQLException, Exception {
-//        AuthorService as = new AuthorService(new AuthorDao(DatabaseSource.MYSQL));
+//        IAuthorDao a = new AuthorDao(DatabaseSource.MYSQL);
+//        AuthorService as = new AuthorService(a);
+//        List<String> setOfColumns = a.getStringOfCols();
+//        setOfColumns.add("author_id");
+//
+//        String query = MySQLStatementBuilder.getInstance().BuildRetrieveString("book", "author", setOfColumns);
+//    
+//        System.out.println(query);
 //
 //        List<Author> list = as.getAuthorList();
 //
 //        for (Author rec : list) {
 //            System.out.println(rec.getAuthorId() + ", " + rec.getAuthorName() + ", " + rec.getDateAdded() + "\n");
 //        }
-//        //System.out.println("" + as.UpdateAuthor());
-//         //System.out.println("" + as.AddAuthor());
-//        //System.out.println("" + as.DeleteAuthor());
+////        System.out.println("" + as.UpdateAuthor());
+////         System.out.println("" + as.AddAuthor());
+////        System.out.println("" + as.DeleteAuthor());
 //
 //    }
 }

@@ -38,25 +38,18 @@ public class MySQLStatementBuilder implements SQLStatementBuilder {
         String values = "VALUES ( ";
 
         for (int i = 0; i < columns.size(); i++) {
-
             if (i == 0) {
-
                 columnsSet += "`" + columns.get(i) + "`";
                 values += "? ";
-
             } else {
-
                 columnsSet += ",`" + columns.get(i) + "`";
                 values += ", ? ";
             }
-
         }
 
         String c = "INSERT INTO `" + databaseName + "`.`" + tableName + "` (" + columnsSet + ")";
 
-
-            queryString += c + values + ");";
-        
+        queryString += c + values + ");";
 
         return queryString;
     }
@@ -67,38 +60,29 @@ public class MySQLStatementBuilder implements SQLStatementBuilder {
         String columnsSet = "";
 
         for (int i = 0; i < columns.size(); i++) {
-
             if (columns.get(i).equals("*")) {
-
                 columnsSet += "*";
-
             } else if (i == 0) {
-
                 columnsSet += "`" + columns.get(i) + "`";
-
             } else {
 
                 columnsSet += ",`" + columns.get(i) + "`";
             }
-
         }
-
         return "SELECT " + columnsSet + " FROM " + databaseName + "." + tableName;
-
     }
 
     @Override
     public String BuildUpdateString(String databaseName, String tableName,
             String columnName, String idColumnName, String id) {
-   
         return "UPDATE `" + databaseName + "`.`" + tableName + "` SET `"
                 + columnName + "`= ? " + " WHERE `" + idColumnName + "`='" + id + "';";
-
     }
 
     @Override
     public String BuildDeleteString(String databaseName, String tableName, String id) {
-        return "DELETE FROM `" + databaseName + "`.`" + tableName + "` WHERE `author_id`='" + id + "';";
+        return "DELETE FROM `" + databaseName + "`.`" + tableName
+                + "` WHERE `author_id`='" + id + "';";
     }
 
 }

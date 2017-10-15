@@ -26,11 +26,7 @@ public class MsSqlServerDataAccess implements DataAccess {
     
     public MsSqlServerDataAccess(String driverClass, 
             String url, String userName, String password) {
-        
-        setDriverClass(driverClass);
-        setUrl(url);
-        setUserName(userName);
-        setPassword(password);
+
         
     }
     
@@ -83,45 +79,6 @@ public class MsSqlServerDataAccess implements DataAccess {
         return rawData;
     }
 
-    @Override
-    public String getDriverClass() {
-        return driverClass;
-    }
-
-    @Override
-    public final void setDriverClass(String driverClass) {
-        this.driverClass = driverClass;
-    }
-
-    @Override
-    public String getUrl() {
-        return url;
-    }
-
-    @Override
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    @Override
-    public String getUserName() {
-        return userName;
-    }
-
-    @Override
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public void setPassword(String password) {
-        this.password = password;
-    }
     
 //    public static void main(String[] args) throws SQLException, ClassNotFoundException {
 //        

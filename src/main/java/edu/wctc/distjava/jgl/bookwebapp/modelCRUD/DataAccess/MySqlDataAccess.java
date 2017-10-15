@@ -93,40 +93,6 @@ public final class MySqlDataAccess implements DataAccess {
         return rawData;
     }
 
-    @Override
-    public String getDriverClass() {
-        return driverClass;
-    }
-
-    public final void setDriverClass(String driverClass) {
-        this.driverClass = driverClass;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     @Override
     public int InsertRecord(String query, List<List<String>> dataSets) throws SQLException, ClassNotFoundException {
@@ -166,7 +132,11 @@ public final class MySqlDataAccess implements DataAccess {
 
     @Override
     public int DeleteRecord(String query) throws SQLException, ClassNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      openConnection();
+      stmt = conn.createStatement();
+       int a = stmt.executeUpdate(query);
+        closeConnection();
+        return a;
     }
 
 //    public static void main(String[] args) throws SQLException, ClassNotFoundException, Exception {

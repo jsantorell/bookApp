@@ -96,9 +96,7 @@ public final class AuthorDao implements IAuthorDao {
 
     @Override
     public int insertAuthor(String query, List<List<String>> dataSets) throws SQLException, ClassNotFoundException {
-
         return db.InsertRecord(query, dataSets);
-
     }
 
     @Override
@@ -176,19 +174,23 @@ public final class AuthorDao implements IAuthorDao {
 //
 //        SQLStatementBuilder p = MySQLStatementBuilder.getInstance();
 //        List<String> setOfColumns = new ArrayList<>();
-//        setOfColumns.add("author_id");
-//        setOfColumns.add("author_name");
-//        setOfColumns.add("date_added");
-//
-//        String query = p.BuildRetrieveString("book", "author", setOfColumns);
-//
 //        IAuthorDao adao = new AuthorDao(DatabaseSource.MYSQL);
-//
-//        List<Author> list = adao.getListOfAuthors(query);
-//
-//        for (Author rec : list) {
-//            System.out.println(rec.getAuthorId() + ", " + rec.getAuthorName() + ", " + rec.getDateAdded() + "\n");
-//        }
+//        String a = p.BuildUpdateString("book", "author", "author_name", "author_id", "21");
+//        int b = adao.updateAuthor(a, "bob");
+//        System.out.println(b);
+////        setOfColumns.add("author_id");
+////        setOfColumns.add("author_name");
+////        setOfColumns.add("date_added");
+////
+////        String query = p.BuildRetrieveString("book", "author", setOfColumns);
+////
+////        IAuthorDao adao = new AuthorDao(DatabaseSource.MYSQL);
+////
+////        List<Author> list = adao.getListOfAuthors(query);
+////
+////        for (Author rec : list) {
+////            System.out.println(rec.getAuthorId() + ", " + rec.getAuthorName() + ", " + rec.getDateAdded() + "\n");
+////        }
 //
 //    }
 }

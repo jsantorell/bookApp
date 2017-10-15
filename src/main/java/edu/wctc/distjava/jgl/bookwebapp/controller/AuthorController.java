@@ -23,9 +23,8 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthorController extends HttpServlet {
 
     public static final String ACTION = "action";
+    public static final String ID = "id";
     public static final String LIST_ACTION = "list";
-    public static final String ADD_ACTION = "add";
-    public static final String UPDATE_ACTION = "update";
 
     private static final String TRY_ADD = "tryadd";
     private static final String TRY_UPDATE = "tryupdate";
@@ -49,7 +48,8 @@ public class AuthorController extends HttpServlet {
 
         try {
             String action = request.getParameter(ACTION);
-            
+            String idFromView = request.getParameter(ID);
+
             IAuthorDao adao = new AuthorDao(DatabaseSource.MYSQL);
 
             AuthorService authorService = new AuthorService(adao);
@@ -61,46 +61,37 @@ public class AuthorController extends HttpServlet {
                 destination = "authorList.jsp";
             }
             if (action.equalsIgnoreCase(TRY_DELETE)) {
-                String id = request.getParameter("AuthorID");
+                //String id = request.getParameter("AuthorID");
 
-                int rowsAffected = authorService.DeleteAuthor(id);
+                int rowsAffected = authorService.DeleteAuthor(idFromView);
                 List<Author> authorList = authorService.getAuthorList();
                 request.setAttribute("authorList", authorList);
                 request.setAttribute("rowsAffected", rowsAffected + " Record(s) Deleted");
 
                 destination = "authorList.jsp";
             }
-            if (action.equalsIgnoreCase(ADD_ACTION)) {
-                destination = "add.jsp";
-            }
+
             if (action.equalsIgnoreCase(TRY_ADD)) {
                 String aName = request.getParameter("AuthorName");
                 int rowsAffected = authorService.AddAuthor(aName);
                 request.setAttribute("rowsAffected", rowsAffected + " Record(s) Added");
-                destination = "add.jsp";
+                List<Author> authorList = authorService.getAuthorList();
+                request.setAttribute("authorList", authorList);
+                destination = "authorList.jsp";
             }
-            if (action.equalsIgnoreCase(UPDATE_ACTION)) {
 
-                destination = "update.jsp";
-            }
             if (action.equalsIgnoreCase(TRY_UPDATE)) {
-                String aName = request.getParameter("AuthorName");
-                String date = request.getParameter("DateAdded");
-                String id = request.getParameter("AuthorID");
+
+                String aName = request.getParameter(idFromView);
+                System.out.println(aName);
                 int rowsAffected = 0;
-                if (date.length() > 9) {
 
-                    rowsAffected += authorService.UpdateAuthor(date, "date_added", id);
-
-                }
-                if (aName.length() > 0) {
-
-                    rowsAffected += authorService.UpdateAuthor(aName, "author_name", id);
-
-                }
+                rowsAffected += authorService.UpdateAuthor(aName, "author_name", idFromView);
 
                 request.setAttribute("rowsAffected", rowsAffected + " Column(s) Affected");
-                destination = "update.jsp";
+                List<Author> authorList = authorService.getAuthorList();
+                request.setAttribute("authorList", authorList);
+                destination = "authorList.jsp";
             }
 
         } catch (Exception e) {

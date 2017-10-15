@@ -21,20 +21,40 @@
         </style>
         <link rel="stylesheet" href="css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="css/main.css">
-        <link rel="stylesheet" href="css/stylings.css">
+
 
         <title>Book Web Application</title>
     </head>
     <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">
+                        <img alt="Book Web App" src="...">
+                    </a>
+                </div>
+            </div>
+        </nav>
         <div class="container">
             <ul class="nav nav-tabs">
-                <li role="presentation" class="active"><a href="index.jsp">Home</a></li>
-                <li role="presentation"><a href="authorController?action=list">View/Delete Authors</a></li>
-                <li role="presentation"><a href="authorController?action=add">Add an Author</a></li>
-                 <li role="presentation"><a href="authorController?action=update">Update an Author</a></li>
+                <li role="presentation" class="active"><a href="index.jsp"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+                <li role="presentation"><a href="authorController?action=list"><i class="fa fa-cogs" aria-hidden="true"></i> Manage Authors</a></li>
+
             </ul>
-            <p>Welcome</p>
+            <div class="wrapper">
+                <h3>Welcome</h3>
+                <p>Manage Authors - Allows you to add, update, and delete Authors</p>
+            </div>
         </div>
+        <nav class="navbar navbar-inverse navbar-fixed-bottom">
+            <div class="container-fluid">
+                <div class="navbar-header navbar-right">
+                    <a class="navbar-brand" href="#">
+                        <img alt="Book Web App" src="...">
+                    </a>
+                </div>
+            </div>
+        </nav>
         <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
     </body>
 </html>
