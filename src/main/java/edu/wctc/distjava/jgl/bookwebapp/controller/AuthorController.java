@@ -62,6 +62,7 @@ public class AuthorController extends HttpServlet {
 
             }
             if (action.equalsIgnoreCase(TRY_LOOKUP)) {
+                destination = "index.jsp";
                 String search = request.getParameter("theSearch");
                 List<Author> authorList = authorService.getAuthorSearch(search);
                 request.setAttribute("authorList", authorList);

@@ -86,5 +86,10 @@ public class MsSqlServerDataAccess implements DataAccess {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public int updateRecord(String tableName, List colNames, List colValues, String pkColName, Object pkValue) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     
 }

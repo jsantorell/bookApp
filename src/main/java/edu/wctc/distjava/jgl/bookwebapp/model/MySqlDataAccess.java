@@ -125,35 +125,65 @@ public class MySqlDataAccess implements DataAccess {
         return recordsAffected;
     }
 
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+    public int updateRecord(String tableName, List colNames, List colValues, String pkColName, Object pkValue) throws SQLException {
 
-        DataAccess db = new MySqlDataAccess();
-        
-        
-        
-        
-        db.openConnection("com.mysql.jdbc.Driver",
-                "jdbc:mysql://localhost:3306/book",
-                "root", "");
+        String sql = "UPDATE " + tableName + " SET ";
 
-       int recs = db.CreateRecord("author", Arrays.asList("author_name", "date_added"), Arrays.asList("author_name", "2017-07-07"));
-        
-        db.closeConnection();
-        System.out.println("Records Updated = " + recs);
-        
-        
-        
-//Get All Records.
+        for (int i = 0; i < colNames.size(); i++) {
+
+            if (i < colNames.size() - 1) {
+
+                sql += colNames.get(i) + " = " + "?, ";
+
+            } else {
+
+                sql += colNames.get(i) + " = " + "?";
+
+            }
+
+        }
+
+        sql += " WHERE " + pkColName + " = ?;";
+
+        // System.out.println(sql);
+        ps = conn.prepareStatement(sql);
+
+        for (int i = 1; i <= colValues.size(); i++) {
+
+            ps.setObject(i, colValues.get(i - 1));
+
+        }
+
+        ps.setObject(colValues.size() + 1, pkValue);
+
+        return ps.executeUpdate();
+
+    }
+
+//    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+//
+//        DataAccess db = new MySqlDataAccess();
+//
 //        db.openConnection("com.mysql.jdbc.Driver",
 //                "jdbc:mysql://localhost:3306/book",
 //                "root", "");
-//        int recs = db.deleteRecordById("author", "author_id", 14);
-//        List<Map<String, Object>> list = db.getAllRecords("author", 0);
-//        System.out.println(recs);
-//        list.forEach((rec) -> {
-//            System.out.println(rec);
-//        });
+//
+//        int recs = db.CreateRecord("author", Arrays.asList("author_name", "date_added"), Arrays.asList("author_name", "2017-07-07"));
+//
 //        db.closeConnection();
-    }
+//        System.out.println("Records Updated = " + recs);
+//
+////Get All Records.
+////        db.openConnection("com.mysql.jdbc.Driver",
+////                "jdbc:mysql://localhost:3306/book",
+////                "root", "");
+////        int recs = db.deleteRecordById("author", "author_id", 14);
+////        List<Map<String, Object>> list = db.getAllRecords("author", 0);
+////        System.out.println(recs);
+////        list.forEach((rec) -> {
+////            System.out.println(rec);
+////        });
+////        db.closeConnection();
+//    }
 
 }

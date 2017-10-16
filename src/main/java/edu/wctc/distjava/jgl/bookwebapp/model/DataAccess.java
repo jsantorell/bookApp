@@ -26,5 +26,5 @@ public int deleteRecordById(String tableName, String pkColName, Object pk) throw
             String url, String userName, String password) throws ClassNotFoundException, SQLException;
 
     public int CreateRecord(String tableName, List<String> colNames, List<Object> colValues)throws ClassNotFoundException, SQLException ;
-    
+    public int updateRecord(String tableName, List colNames, List colValues, String pkColName, Object pkValue) throws SQLException;
 }

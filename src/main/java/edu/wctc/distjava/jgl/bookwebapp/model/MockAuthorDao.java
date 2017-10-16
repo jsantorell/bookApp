@@ -27,19 +27,29 @@ public final class MockAuthorDao implements IAuthorDao {
     }
 
     //Unit TESTING
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-       
-        IAuthorDao adao = new MockAuthorDao();
-           List<Author> list = adao.getListOfAuthors();
-        
-        for(Author rec : list) {
-            System.out.println(rec.getAuthorId() + ", " + rec.getAuthorName() + ", " + rec.getDateAdded() + "\n");
-        }
-
-    }
+//    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+//       
+//        IAuthorDao adao = new MockAuthorDao();
+//           List<Author> list = adao.getListOfAuthors();
+//        
+//        for(Author rec : list) {
+//            System.out.println(rec.getAuthorId() + ", " + rec.getAuthorName() + ", " + rec.getDateAdded() + "\n");
+//        }
+//
+//    }
 
     @Override
     public int removeAuthorById(Integer id) throws ClassNotFoundException, SQLException {
       return 1;
+    }
+
+    @Override
+    public int addAuthor(List<Object> colValues) throws ClassNotFoundException, SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int updateAuthor(List<Object> colValues, Object pkValue) throws ClassNotFoundException, SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
