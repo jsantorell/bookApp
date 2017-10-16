@@ -25,10 +25,12 @@ public class AuthorController extends HttpServlet {
     public static final String ACTION = "action";
     public static final String ID = "id";
     public static final String LIST_ACTION = "list";
+    public static final String INDEX_ACTION = "index";
 
     private static final String TRY_ADD = "tryadd";
     private static final String TRY_UPDATE = "tryupdate";
     private static final String TRY_DELETE = "trydelete";
+    private static final String TRY_LOOKUP = "trylookup";
     private static final long serialVersionUID = 1L;
 
     /**
@@ -44,7 +46,7 @@ public class AuthorController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String destination = "error.jsp"; // default
+        String destination = "authorList.jsp"; // default
 
         try {
             String action = request.getParameter(ACTION);
@@ -54,11 +56,23 @@ public class AuthorController extends HttpServlet {
 
             AuthorService authorService = new AuthorService(adao);
 
+            if (action.equalsIgnoreCase(INDEX_ACTION)) {
+
+                destination = "index.jsp";
+
+            }
+            if (action.equalsIgnoreCase(TRY_LOOKUP)) {
+                String search = request.getParameter("theSearch");
+                List<Author> authorList = authorService.getAuthorSearch(search);
+                request.setAttribute("authorList", authorList);
+                
+
+            }
             if (action.equalsIgnoreCase(LIST_ACTION)) {
 
                 List<Author> authorList = authorService.getAuthorList();
                 request.setAttribute("authorList", authorList);
-                destination = "authorList.jsp";
+
             }
             if (action.equalsIgnoreCase(TRY_DELETE)) {
                 //String id = request.getParameter("AuthorID");
@@ -67,8 +81,6 @@ public class AuthorController extends HttpServlet {
                 List<Author> authorList = authorService.getAuthorList();
                 request.setAttribute("authorList", authorList);
                 request.setAttribute("rowsAffected", rowsAffected + " Record(s) Deleted");
-
-                destination = "authorList.jsp";
             }
 
             if (action.equalsIgnoreCase(TRY_ADD)) {
@@ -77,7 +89,6 @@ public class AuthorController extends HttpServlet {
                 request.setAttribute("rowsAffected", rowsAffected + " Record(s) Added");
                 List<Author> authorList = authorService.getAuthorList();
                 request.setAttribute("authorList", authorList);
-                destination = "authorList.jsp";
             }
 
             if (action.equalsIgnoreCase(TRY_UPDATE)) {
@@ -91,13 +102,12 @@ public class AuthorController extends HttpServlet {
                 request.setAttribute("rowsAffected", rowsAffected + " Column(s) Affected");
                 List<Author> authorList = authorService.getAuthorList();
                 request.setAttribute("authorList", authorList);
-                destination = "authorList.jsp";
             }
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            destination = "/error.jsp";
-            request.setAttribute("errMessage", e.getMessage());
+
+            request.setAttribute("rowsAffected", e.getMessage());
         }
 
         RequestDispatcher view

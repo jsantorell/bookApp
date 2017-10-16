@@ -21,6 +21,7 @@
         </style>
         <link rel="stylesheet" href="css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="css/main.css">
+        <link href="font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css"/>
 
 
         <title>Book Web Application</title>
@@ -32,18 +33,28 @@
                     <a class="navbar-brand" href="#">
                         <img alt="Book Web App" src="...">
                     </a>
+
                 </div>
             </div>
         </nav>
         <div class="container">
             <ul class="nav nav-tabs">
-                <li role="presentation" class="active"><a href="index.jsp"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+                <li role="presentation" class="active"><a href="authorController?action=index"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
                 <li role="presentation"><a href="authorController?action=list"><i class="fa fa-cogs" aria-hidden="true"></i> Manage Authors</a></li>
 
             </ul>
-            <div class="wrapper">
+            <div class="wrapper col-sm-12">
                 <h3>Welcome</h3>
                 <p>Manage Authors - Allows you to add, update, and delete Authors</p>
+
+
+                <h3>Find an Author</h3>
+                <form method="POST" id="authorForm" action="authorController?action=trylookup">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Ernest Hemingway" name="theSearch" aria-describedby="basic-addon2">
+                        <span class="input-group-addon" id="basic-addon2"><i class="fa fa-search" aria-hidden="true"></i></span>
+                    </div>
+                </form>
             </div>
         </div>
         <nav class="navbar navbar-inverse navbar-fixed-bottom">

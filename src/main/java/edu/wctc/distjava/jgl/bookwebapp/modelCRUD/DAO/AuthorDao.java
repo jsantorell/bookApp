@@ -57,10 +57,10 @@ public final class AuthorDao implements IAuthorDao {
     @Override
     public List<Author> getListOfAuthors(String query)
             throws SQLException, ClassNotFoundException {
-
+        db.openConnection();
         List<Author> list = new Vector<>();
         List<Map<String, Object>> rawData = db.DatabaseQuery(query);
-
+        db.closeConnection();
         Author author = null;
 
         for (Map<String, Object> rec : rawData) {
@@ -96,17 +96,26 @@ public final class AuthorDao implements IAuthorDao {
 
     @Override
     public int insertAuthor(String query, List<List<String>> dataSets) throws SQLException, ClassNotFoundException {
-        return db.InsertRecord(query, dataSets);
+        db.openConnection();
+        int recordsInserted = db.InsertRecord(query, dataSets);
+        db.closeConnection();
+        return recordsInserted;
     }
 
     @Override
     public int updateAuthor(String query, Object value) throws SQLException, ClassNotFoundException {
-        return db.UpdateRecord(query, value);
+        db.openConnection();
+        int recordsUpdated = db.UpdateRecord(query, value);
+        db.closeConnection();
+        return recordsUpdated;
     }
 
     @Override
     public int deleteAuthor(String query) throws SQLException, ClassNotFoundException {
-        return db.DeleteRecord(query);
+        db.openConnection();
+        int recordsDeleted = db.DeleteRecord(query);
+        db.closeConnection();
+        return recordsDeleted;
     }
 
     public DatabaseSource getdSource() {

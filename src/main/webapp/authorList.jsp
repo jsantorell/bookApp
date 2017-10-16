@@ -44,7 +44,7 @@
         <div class="container">
 
             <ul class="nav nav-tabs">
-                <li role="presentation"><a href="index.jsp"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+                <li role="presentation"><a href="authorController?action=index"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
                 <li role="presentation" class="active"><a href="authorController?action=list"><i class="fa fa-cogs" aria-hidden="true"></i> Manage Authors</a></li>
 
             </ul>

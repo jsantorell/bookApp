@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Vector;
 import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.QueryString.SQLStatementBuilder;
 import java.util.Properties;
+import java.util.StringJoiner;
 
 public final class MySqlDataAccess implements DataAccess {
 
@@ -72,7 +73,6 @@ public final class MySqlDataAccess implements DataAccess {
         List<Map<String, Object>> rawData = new Vector<>();
         String sql = query;
 
-        openConnection();
         stmt = conn.createStatement();
         rs = stmt.executeQuery(sql);
 
@@ -88,18 +88,14 @@ public final class MySqlDataAccess implements DataAccess {
             rawData.add(record);
         }
 
-        closeConnection();
-
         return rawData;
-    }
-
-
+    }   
+    
+    
     @Override
     public int InsertRecord(String query, List<List<String>> dataSets) throws SQLException, ClassNotFoundException {
         String sql = query;
         int rowsAffected = 0;
-
-        openConnection();
 
         for (int rowOfData = 0; rowOfData < dataSets.size(); rowOfData++) {
             this.ps = conn.prepareStatement(sql);
@@ -112,19 +108,15 @@ public final class MySqlDataAccess implements DataAccess {
             rowsAffected = ps.executeUpdate();
         }
 
-        closeConnection();
-
         return rowsAffected;
     }
 
     @Override
     public int UpdateRecord(String query, Object value) throws SQLException, ClassNotFoundException {
 
-        openConnection();
         this.ps = conn.prepareStatement(query);
         ps.setObject(1, value);
         int rowsAffected = ps.executeUpdate();
-        closeConnection();
 
         return rowsAffected;
 
@@ -132,12 +124,15 @@ public final class MySqlDataAccess implements DataAccess {
 
     @Override
     public int DeleteRecord(String query) throws SQLException, ClassNotFoundException {
-      openConnection();
+
       stmt = conn.createStatement();
        int a = stmt.executeUpdate(query);
-        closeConnection();
         return a;
     }
+    
+    
+    
+    
 
 //    public static void main(String[] args) throws SQLException, ClassNotFoundException, Exception {
 //

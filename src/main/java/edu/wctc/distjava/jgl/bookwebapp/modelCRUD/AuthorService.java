@@ -4,6 +4,7 @@ import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.QueryString.MySQLStatementBuil
 import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.DAO.IAuthorDao;
 import edu.wctc.distjava.jgl.bookwebapp.model.Author;
 import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.DAO.AuthorDao;
+import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.QueryString.OrderBy;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,11 +39,24 @@ public final class AuthorService {
         this.authorDAO = authorDAO;
     }
 
+    public List<Author> getAuthorSearch(String val) throws ClassNotFoundException, SQLException {
+
+        List<String> setOfColumns = authorDAO.getStringOfCols();
+        setOfColumns.add("author_id");
+        String colName = "author_name";
+        p = new OrderBy(new Where(p, colName, "LIKE", "'%" + val + "%'"), "author_id", "");
+        String query = p.BuildRetrieveString(this.dbName, this.tbName, setOfColumns);
+        //System.out.println(query);
+
+        return authorDAO.getListOfAuthors(query);
+
+    }
+
     public List<Author> getAuthorByID(String colName, String comp, String val) throws ClassNotFoundException, SQLException {
 
         List<String> setOfColumns = authorDAO.getStringOfCols();
         setOfColumns.add("author_id");
-        p = new Where(p, colName, comp, val);
+        p = new OrderBy(new Where(p, colName, comp, val), colName, "");
         String query = p.BuildRetrieveString(this.dbName, this.tbName, setOfColumns);
         //System.out.println(query);
 
@@ -54,6 +68,7 @@ public final class AuthorService {
 
         List<String> setOfColumns = authorDAO.getStringOfCols();
         setOfColumns.add("author_id");
+        p = new OrderBy(p, "author_id", "");
         String query = p.BuildRetrieveString(this.dbName, this.tbName, setOfColumns);
         //System.out.println(query);
 
