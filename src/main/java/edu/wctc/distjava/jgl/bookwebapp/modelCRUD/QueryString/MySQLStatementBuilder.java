@@ -1,6 +1,7 @@
 package edu.wctc.distjava.jgl.bookwebapp.modelCRUD.QueryString;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

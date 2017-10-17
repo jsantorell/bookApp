@@ -15,11 +15,11 @@ public abstract class MySQLWhereDecorator implements SQLStatementBuilder {
 
     private SQLStatementBuilder sql;
     private String columnName;
-    private String comparator;
+    private SQLComparisonType comparator;
     private String compareValue;
 
     public MySQLWhereDecorator(SQLStatementBuilder sql, String columnName,
-            String comparator, String compareValue) {
+               SQLComparisonType comparator, String compareValue) {
         this.sql = sql;
         this.columnName = columnName;
         this.comparator = comparator;

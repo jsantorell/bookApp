@@ -5,6 +5,7 @@ import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.DAO.IAuthorDao;
 import edu.wctc.distjava.jgl.bookwebapp.model.Author;
 import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.DAO.AuthorDao;
 import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.QueryString.OrderBy;
+import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.QueryString.SQLComparisonType;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,19 +45,21 @@ public final class AuthorService {
         List<String> setOfColumns = authorDAO.getStringOfCols();
         setOfColumns.add("author_id");
         String colName = "author_name";
-        p = new OrderBy(new Where(p, colName, "LIKE", "'%" + val + "%'"), "author_id", "");
+        p = new OrderBy(new Where(p, colName, SQLComparisonType.LIKE, "'%" + val + "%'"), "author_id", "");
         String query = p.BuildRetrieveString(this.dbName, this.tbName, setOfColumns);
         //System.out.println(query);
 
         return authorDAO.getListOfAuthors(query);
 
     }
-
-    public List<Author> getAuthorByID(String colName, String comp, String val) throws ClassNotFoundException, SQLException {
-
+    //Not currently being utilized. Built for future use.
+    public List<Author> getAuthorByID(String val) throws ClassNotFoundException, SQLException {
+        String colName = "author_id";
         List<String> setOfColumns = authorDAO.getStringOfCols();
-        setOfColumns.add("author_id");
-        p = new OrderBy(new Where(p, colName, comp, val), colName, "");
+        setOfColumns.add(colName);
+        //Put the object together
+        p = new OrderBy(new Where(p, colName, SQLComparisonType.EQUALS, val), colName, "");
+        //Build the statement
         String query = p.BuildRetrieveString(this.dbName, this.tbName, setOfColumns);
         //System.out.println(query);
 
@@ -68,7 +71,9 @@ public final class AuthorService {
 
         List<String> setOfColumns = authorDAO.getStringOfCols();
         setOfColumns.add("author_id");
+        //Make sure the object is ordered
         p = new OrderBy(p, "author_id", "");
+        //build the statement
         String query = p.BuildRetrieveString(this.dbName, this.tbName, setOfColumns);
         //System.out.println(query);
 

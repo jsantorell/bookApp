@@ -10,10 +10,10 @@ public class Where extends MySQLWhereDecorator {
 
     private SQLStatementBuilder sql;
     private String columnName;
-    private String comparator;
+    private SQLComparisonType comparator;
       private String compareValue;
 
-    public Where(SQLStatementBuilder sql, String columnName, String comparator, String compareValue) {
+    public Where(SQLStatementBuilder sql, String columnName, SQLComparisonType comparator, String compareValue) {
         super(sql, columnName, comparator, compareValue);
         this.sql = sql;
         this.columnName = columnName;
@@ -26,7 +26,15 @@ public class Where extends MySQLWhereDecorator {
     public String BuildRetrieveString(String databaseName, String tableName, List<String> columns) {
 
         String sqlStatement = sql.BuildRetrieveString(databaseName, tableName, columns);
-        String wherePart = " WHERE " + columnName + " " + comparator + " " + compareValue;
+        String comparor = "";
+        switch(comparator){
+        
+            case LIKE: comparor = "LIKE"; break;
+            case EQUALS: comparor = "="; break;
+            default: comparor = "="; break;
+        }
+        
+        String wherePart = " WHERE " + columnName + " " + comparor + " " + compareValue;
         return sqlStatement + wherePart;
 
     }
