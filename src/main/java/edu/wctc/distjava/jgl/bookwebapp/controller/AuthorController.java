@@ -32,6 +32,11 @@ public class AuthorController extends HttpServlet {
     private static final String TRY_DELETE = "trydelete";
     private static final String TRY_LOOKUP = "trylookup";
     private static final long serialVersionUID = 1L;
+    
+    String driverClass;
+    String url;
+    String userName;
+    String password;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -115,6 +120,18 @@ public class AuthorController extends HttpServlet {
                 = request.getRequestDispatcher(destination);
         view.forward(request, response);
 
+    }
+    //PASS THIS TO THE PROPER LEVEL LATER
+        @Override
+    public void init() throws ServletException {
+        driverClass = getServletContext()
+                .getInitParameter("db.driver.class");
+        url = getServletContext()
+                .getInitParameter("db.url");
+        userName = getServletContext()
+                .getInitParameter("db.username");
+        password = getServletContext()
+                .getInitParameter("db.password");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

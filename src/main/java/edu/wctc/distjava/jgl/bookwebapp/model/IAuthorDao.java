@@ -7,6 +7,7 @@ package edu.wctc.distjava.jgl.bookwebapp.model;
 
 import java.sql.SQLException;
 import java.util.List;
+import javax.servlet.ServletException;
 
 /**
  *
@@ -19,4 +20,5 @@ public interface IAuthorDao {
       public int addAuthor(List<Object> colValues) throws ClassNotFoundException, SQLException;
       public int updateAuthor(List<Object> colValues, Object pkValue) 
             throws ClassNotFoundException, SQLException;
+      
 }

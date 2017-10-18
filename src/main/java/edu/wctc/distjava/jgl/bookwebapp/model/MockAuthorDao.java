@@ -3,6 +3,7 @@ package edu.wctc.distjava.jgl.bookwebapp.model;
 import java.sql.SQLException;
 
 import java.util.*;
+import javax.servlet.ServletException;
 
 /**
  *
@@ -52,4 +53,6 @@ public final class MockAuthorDao implements IAuthorDao {
     public int updateAuthor(List<Object> colValues, Object pkValue) throws ClassNotFoundException, SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+
 }
