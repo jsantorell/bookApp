@@ -10,37 +10,11 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <style>
-            body {
-                padding-top: 50px;
-                padding-bottom: 20px;
-            }
-        </style>
-        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="css/main.css">
-
-        <link href="font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css"/>
-
+        <jsp:include page="include/head.jsp" />
         <title>Author List</title>
     </head>
     <body>
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#">
-                        <img alt="Book Web App" src="...">
-                    </a>
-                </div>
-            </div>
-        </nav>
+        <jsp:include page="include/header.jsp" />
         <div class="container">
 
             <ul class="nav nav-tabs">
@@ -124,15 +98,7 @@
 
             </div>
         </div>
-        <nav class="navbar navbar-inverse navbar-fixed-bottom">
-            <div class="container-fluid">
-                <div class="navbar-header navbar-right">
-                    <a class="navbar-brand" href="#">
-                        <img alt="Book Web App" src="...">
-                    </a>
-                </div>
-            </div>
-        </nav>
-        <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+        <jsp:include page="include/footer.jsp" />
+        <jsp:include page="include/scripts.jsp" />
     </body>
 </html>

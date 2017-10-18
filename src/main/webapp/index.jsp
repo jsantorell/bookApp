@@ -10,20 +10,11 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
     <head>
-        <jsp:include page="head.jsp" />
+        <jsp:include page="include/head.jsp" />
         <title>Book Web Application</title>
     </head>
     <body>
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#">
-                        <img alt="Book Web App" src="...">
-                    </a>
-
-                </div>
-            </div>
-        </nav>
+        <jsp:include page="include/header.jsp" />
         <div class="container">
             <ul class="nav nav-tabs">
                 <li role="presentation" class="active"><a href="authorController?action=index"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
@@ -53,10 +44,10 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                               
+
                                 <th style="text-align:center;">Author Name</th>
                                 <th style="text-align:center;">Date Added</th>
-                           
+
                             </tr>
                         </thead>
                         <tbody>
@@ -64,11 +55,11 @@
                             <c:forEach var="a" items="${authorList}">
 
                                 <tr>
-                                   
+
                                     <td> 
                                         ${a.authorName}</td>
                                     <td style="text-align:center;"><fmt:formatDate pattern = "yyyy-MM-dd" value = "${a.dateAdded}" /></td>
-                         
+
                                 </tr>
 
                             </c:forEach>
@@ -77,15 +68,8 @@
                 </c:if>
             </div>
         </div>
-        <nav class="navbar navbar-inverse navbar-fixed-bottom">
-            <div class="container-fluid">
-                <div class="navbar-header navbar-right">
-                    <a class="navbar-brand" href="#">
-                        <img alt="Book Web App" src="...">
-                    </a>
-                </div>
-            </div>
-        </nav>
-        <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+
+        <jsp:include page="include/footer.jsp" />
+        <jsp:include page="include/scripts.jsp" />
     </body>
 </html>

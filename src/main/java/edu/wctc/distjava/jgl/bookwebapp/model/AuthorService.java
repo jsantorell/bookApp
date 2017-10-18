@@ -6,10 +6,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-/**
- *
- * @author jerem
- */
+
 public final class AuthorService {
 
     private IAuthorDao authorDAO;
