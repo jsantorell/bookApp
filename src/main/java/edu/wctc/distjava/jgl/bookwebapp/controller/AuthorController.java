@@ -1,9 +1,6 @@
 package edu.wctc.distjava.jgl.bookwebapp.controller;
 
-import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.DAO.AuthorDao;
-import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.*;
-import edu.wctc.distjava.jgl.bookwebapp.model.Author;
-import edu.wctc.distjava.jgl.bookwebapp.modelCRUD.DAO.IAuthorDao;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -53,68 +50,68 @@ public class AuthorController extends HttpServlet {
 
         String destination = "authorList.jsp"; // default
 
-        try {
-            String action = request.getParameter(ACTION);
-            String idFromView = request.getParameter(ID);
-
-            IAuthorDao adao = new AuthorDao(DatabaseSource.MYSQL);
-
-            AuthorService authorService = new AuthorService(adao);
-
-            if (action.equalsIgnoreCase(INDEX_ACTION)) {
-
-                destination = "index.jsp";
-
-            }
-            if (action.equalsIgnoreCase(TRY_LOOKUP)) {
-                destination = "index.jsp";
-                String search = request.getParameter("theSearch");
-                List<Author> authorList = authorService.getAuthorSearch(search);
-                request.setAttribute("authorList", authorList);
-                
-
-            }
-            if (action.equalsIgnoreCase(LIST_ACTION)) {
-
-                List<Author> authorList = authorService.getAuthorList();
-                request.setAttribute("authorList", authorList);
-
-            }
-            if (action.equalsIgnoreCase(TRY_DELETE)) {
-                //String id = request.getParameter("AuthorID");
-
-                int rowsAffected = authorService.DeleteAuthor(idFromView);
-                List<Author> authorList = authorService.getAuthorList();
-                request.setAttribute("authorList", authorList);
-                request.setAttribute("rowsAffected", rowsAffected + " Record(s) Deleted");
-            }
-
-            if (action.equalsIgnoreCase(TRY_ADD)) {
-                String aName = request.getParameter("AuthorName");
-                int rowsAffected = authorService.AddAuthor(aName);
-                request.setAttribute("rowsAffected", rowsAffected + " Record(s) Added");
-                List<Author> authorList = authorService.getAuthorList();
-                request.setAttribute("authorList", authorList);
-            }
-
-            if (action.equalsIgnoreCase(TRY_UPDATE)) {
-
-                String aName = request.getParameter(idFromView);
-                System.out.println(aName);
-                int rowsAffected = 0;
-
-                rowsAffected += authorService.UpdateAuthor(aName, "author_name", idFromView);
-
-                request.setAttribute("rowsAffected", rowsAffected + " Column(s) Affected");
-                List<Author> authorList = authorService.getAuthorList();
-                request.setAttribute("authorList", authorList);
-            }
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-
-            request.setAttribute("rowsAffected", e.getMessage());
-        }
+//        try {
+//            String action = request.getParameter(ACTION);
+//            String idFromView = request.getParameter(ID);
+//
+//            IAuthorDao adao = new AuthorDao(DatabaseSource.MYSQL);
+//
+//            AuthorService authorService = new AuthorService(adao);
+//
+//            if (action.equalsIgnoreCase(INDEX_ACTION)) {
+//
+//                destination = "index.jsp";
+//
+//            }
+//            if (action.equalsIgnoreCase(TRY_LOOKUP)) {
+//                destination = "index.jsp";
+//                String search = request.getParameter("theSearch");
+//                List<Author> authorList = authorService.getAuthorSearch(search);
+//                request.setAttribute("authorList", authorList);
+//                
+//
+//            }
+//            if (action.equalsIgnoreCase(LIST_ACTION)) {
+//
+//                List<Author> authorList = authorService.getAuthorList();
+//                request.setAttribute("authorList", authorList);
+//
+//            }
+//            if (action.equalsIgnoreCase(TRY_DELETE)) {
+//                //String id = request.getParameter("AuthorID");
+//
+//                int rowsAffected = authorService.DeleteAuthor(idFromView);
+//                List<Author> authorList = authorService.getAuthorList();
+//                request.setAttribute("authorList", authorList);
+//                request.setAttribute("rowsAffected", rowsAffected + " Record(s) Deleted");
+//            }
+//
+//            if (action.equalsIgnoreCase(TRY_ADD)) {
+//                String aName = request.getParameter("AuthorName");
+//                int rowsAffected = authorService.AddAuthor(aName);
+//                request.setAttribute("rowsAffected", rowsAffected + " Record(s) Added");
+//                List<Author> authorList = authorService.getAuthorList();
+//                request.setAttribute("authorList", authorList);
+//            }
+//
+//            if (action.equalsIgnoreCase(TRY_UPDATE)) {
+//
+//                String aName = request.getParameter(idFromView);
+//                System.out.println(aName);
+//                int rowsAffected = 0;
+//
+//                rowsAffected += authorService.UpdateAuthor(aName, "author_name", idFromView);
+//
+//                request.setAttribute("rowsAffected", rowsAffected + " Column(s) Affected");
+//                List<Author> authorList = authorService.getAuthorList();
+//                request.setAttribute("authorList", authorList);
+//            }
+//
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//
+//            request.setAttribute("rowsAffected", e.getMessage());
+//        }
 
         RequestDispatcher view
                 = request.getRequestDispatcher(destination);

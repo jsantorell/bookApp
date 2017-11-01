@@ -39,8 +39,6 @@
                 </form>
                 <c:if test="${fn:length(authorList) > 0}">
 
-
-
                     <table class="table table-striped">
                         <thead>
                             <tr>
