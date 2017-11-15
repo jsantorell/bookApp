@@ -1,49 +1,85 @@
 package edu.wctc.distjava.jgl.bookwebapp.model;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 
-public final class AuthorService {
+@Stateless
+public class AuthorService implements Serializable {//Allows server to use ejb's more efficiently "Serializable"
 
-//    private IAuthorDao authorDAO;
+    /*
+    Serializable serializes an ejb as a binary file when ram is needed. and 
+    deserializes it when it needs to use the ejb. 
+     */
+    private static final long serialVersionUID = 1L;//A Default value
 
-//    public AuthorService(IAuthorDao authorDAO) {
-//        setAuthorDAO(authorDAO);
-//    }
+    @PersistenceContext(unitName = "book_PU")
+    private EntityManager em;
 
-//    public IAuthorDao getAuthorDAO() {
-//        return authorDAO;
-//    }
+    public EntityManager getEm() {
+        return em;
+    }
 
-//    public void setAuthorDAO(IAuthorDao authorDAO) {
-//        this.authorDAO = authorDAO;
-//    }
+    public void setEm(EntityManager em) {
+        this.em = em;
+    }
 
-//    public List<Author> getAuthorList() throws ClassNotFoundException, SQLException {
-//        return authorDAO.getListOfAuthors();
-//    }
-    
-//    public int addAuthor(List<Object> colNames) throws ClassNotFoundException, SQLException{
-   
-//    return authorDAO.addAuthor(colNames);
-//    }
-//    public int updateAuthor(List<Object> colNames, Object pk) throws ClassNotFoundException, SQLException{
-    
-//    return authorDAO.updateAuthor(colNames, pk);
-//    }
+    public List<Author> getAuthorSearch(String search) {
 
-    //Integration Service
-    
+        return getEm().createQuery(
+                "SELECT a FROM Author a WHERE a.authorName LIKE :search")
+                .setParameter("search", "%" + search + "%")
+                .getResultList();
+    }
+
+    public int DeleteAuthor(String id) throws Exception {
+        
+        int authorId = Integer.parseInt(id);
+        Author deleteAuthor = getEm().find(Author.class, authorId);
+        getEm().remove(deleteAuthor);
+        return 1;
+
+    }
+
+    public List<Author> getAuthorList() throws Exception {
+
+        return getEm().createQuery(
+                "SELECT a FROM Author a")
+                .getResultList();
+    }
+
+    public int addAuthor(String columnValues) throws Exception {
+
+        Date date = new Date();
+        Author newAuthor = new Author();
+        newAuthor.setAuthorName(columnValues);
+        newAuthor.setDateAdded(date);
+        getEm().persist(newAuthor);
+        return 1;
+
+    }
+
+    public int updateAuthor(String colValues, Object pkValue) throws Exception {
+
+        int authorId = Integer.parseInt(pkValue.toString());
+        Author updateAuthor = getEm().find(Author.class, authorId);
+        updateAuthor.setAuthorName(colValues);
+        getEm().merge(updateAuthor);
+        getEm().persist(updateAuthor);
+        return 1;
+    }
+
+//    Integration Service
 //    public static void main(String[] args) throws ClassNotFoundException, SQLException {
 //        AuthorService as = new AuthorService(new AuthorDao("com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/book",
 //                "root", "", new MySqlDataAccess()));
-
+//
 //        List<Author> list = as.getAuthorList();
-
+//
 //        for (Author rec : list) {
 //            System.out.println(rec.getAuthorId() + ", " + rec.getAuthorName() + ", " + rec.getDateAdded() + "\n");
 //        }

@@ -19,7 +19,7 @@
     </context-param>
     <context-param>
         <param-name>db.password</param-name>
-        <param-value></param-value>
+        <param-value>admin</param-value>
     </context-param>
     
     <session-config>
