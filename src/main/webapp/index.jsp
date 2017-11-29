@@ -37,33 +37,34 @@
 
                     </div>
                 </form>
-                <c:if test="${fn:length(authorList) > 0}">
 
-                    <table class="table table-striped">
-                        <thead>
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+
+                            <th style="text-align:center;">Author Name</th>
+                            <th style="text-align:center;">Date Added</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <c:forEach var="a" items="${authorList}">
+
                             <tr>
 
-                                <th style="text-align:center;">Author Name</th>
-                                <th style="text-align:center;">Date Added</th>
+                                <td> 
+                                    ${a.title}</td>
+                                <td style="text-align:center;"><a href="https://isbnsearch.org/isbn/${a.isbn}" target="_blank">${a.isbn}</a></td>
+                                <td style="text-align:center;">${a.authorId.authorName}</td>
 
                             </tr>
-                        </thead>
-                        <tbody>
 
-                            <c:forEach var="a" items="${authorList}">
+                        </c:forEach>
+                    </tbody>
+                </table>
 
-                                <tr>
-
-                                    <td> 
-                                        ${a.authorName}</td>
-                                    <td style="text-align:center;"><fmt:formatDate pattern = "yyyy-MM-dd" value = "${a.dateAdded}" /></td>
-
-                                </tr>
-
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </c:if>
             </div>
         </div>
 

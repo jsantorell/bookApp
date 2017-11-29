@@ -7,6 +7,7 @@ package edu.wctc.distjava.jgl.bookwebapp.model;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +18,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -26,15 +26,15 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Jeremy Santorelli
  */
 @Entity
-@Table(name = "book")
+@Table(name = "book1")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Book.findAll", query = "SELECT b FROM Book b")
-    , @NamedQuery(name = "Book.findByBookId", query = "SELECT b FROM Book b WHERE b.bookId = :bookId")
-    , @NamedQuery(name = "Book.findByTitle", query = "SELECT b FROM Book b WHERE b.title = :title")
-    , @NamedQuery(name = "Book.findByIsbn", query = "SELECT b FROM Book b WHERE b.isbn = :isbn")
-    , @NamedQuery(name = "Book.findByAuthorId", query = "SELECT b FROM Book b WHERE b.authorId = :authorId")})
-public class Book implements Serializable {
+    @NamedQuery(name = "Book1.findAll", query = "SELECT b FROM Book1 b")
+    , @NamedQuery(name = "Book1.findByBookId", query = "SELECT b FROM Book1 b WHERE b.bookId = :bookId")
+    , @NamedQuery(name = "Book1.findByTitle", query = "SELECT b FROM Book1 b WHERE b.title = :title")
+    , @NamedQuery(name = "Book1.findByIsbn", query = "SELECT b FROM Book1 b WHERE b.isbn = :isbn")
+    , @NamedQuery(name = "Book1.findByAuthorId", query = "SELECT b FROM Book1 b WHERE b.authorId = :authorId")})
+public class Book1 implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -42,48 +42,24 @@ public class Book implements Serializable {
     @Basic(optional = false)
     @Column(name = "book_id")
     private Integer bookId;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
+    @Size(max = 255)
     @Column(name = "title")
     private String title;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
+    @Size(max = 25)
     @Column(name = "isbn")
     private String isbn;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "author_id")
-    private int authorId;
     @JoinColumn(name = "author_id",
             referencedColumnName = "author_id")
-    @ManyToOne
-    private Author author;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    private Author authorId;
 
-    public Book() {
+    public Book1() {
     }
 
-    public Book(Integer bookId) {
+    public Book1(Integer bookId) {
         this.bookId = bookId;
     }
 
-    public Book(Integer bookId, String title, String isbn, int authorId) {
-        this.bookId = bookId;
-        this.title = title;
-        this.isbn = isbn;
-        this.authorId = authorId;
-    }
-
-    public Author getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Author author) {
-        this.author = author;
-    }
-
-    
     public Integer getBookId() {
         return bookId;
     }
@@ -108,11 +84,11 @@ public class Book implements Serializable {
         this.isbn = isbn;
     }
 
-    public int getAuthorId() {
+    public Author getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(int authorId) {
+    public void setAuthorId(Author authorId) {
         this.authorId = authorId;
     }
 
@@ -126,10 +102,10 @@ public class Book implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Book)) {
+        if (!(object instanceof Book1)) {
             return false;
         }
-        Book other = (Book) object;
+        Book1 other = (Book1) object;
         if ((this.bookId == null && other.bookId != null) || (this.bookId != null && !this.bookId.equals(other.bookId))) {
             return false;
         }
@@ -138,7 +114,7 @@ public class Book implements Serializable {
 
     @Override
     public String toString() {
-        return "edu.wctc.distjava.jgl.bookwebapp.model.Book[ bookId=" + bookId + " ]";
+        return "edu.wctc.distjava.jgl.bookwebapp.model.Book1[ bookId=" + bookId + " ]";
     }
 
 }

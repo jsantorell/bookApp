@@ -59,11 +59,22 @@
                             <tr>
                                 <th scope="row">${a.authorId}</td>
                                 <td> <form class="col-sm-12" method="POST" id="authorForm" action="authorController?action=tryupdate&id=${a.authorId}">
-                                        <input type="text" class="form-control" id="${a.authorId}" name="${a.authorId}" value="${a.authorName}"></td>
-                                        <td style="text-align:center;"><fmt:formatDate pattern = "yyyy-MM-dd" value = "${a.dateAdded}" /></td>
-                                        <td>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="${a.authorId}" name="${a.authorId}" value="${a.authorName}" style="display: inline-block;">
+                                            <span class="input-group-btn">                                                
+                                                <button type="button" class="btn btn-primary" onclick="window.location = 'bookController?action=list&id=${a.authorId}'"><i class="fa fa-plus" aria-hidden="true"></i> <i class="fa fa-book" aria-hidden="true"></i></button>
+                                            </span>
 
-                                            <button type="submit" class="btn btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                        </div>
+
+
+
+
+                                </td>
+                                <td style="text-align:center;"><fmt:formatDate pattern = "yyyy-MM-dd" value = "${a.dateAdded}" /></td>
+                                <td>
+
+                                    <button type="submit" class="btn btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></button>
                                     </form>
                                 </td>
                                 <td>

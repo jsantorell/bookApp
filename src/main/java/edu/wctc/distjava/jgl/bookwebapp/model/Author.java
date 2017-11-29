@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -49,22 +50,22 @@ public class Author implements Serializable {
     @Column(name = "date_added")
     @Temporal(TemporalType.DATE)
     private Date dateAdded;
-    @OneToMany(mappedBy = "authorId")
-    private Set<Book> bookSet;
+    @OneToMany(mappedBy = "authorId", cascade = CascadeType.ALL)
+    private Set<Book1> bookSet;
+
+    public Set<Book1> getBookSet() {
+        return bookSet;
+    }
+
+    public void setBookSet(Set<Book1> bookSet) {
+        this.bookSet = bookSet;
+    }
 
     public Author() {
     }
 
     public Author(Integer authorId) {
         this.authorId = authorId;
-    }
-
-    public Set<Book> getBookSet() {
-        return bookSet;
-    }
-
-    public void setBookSet(Set<Book> bookSet) {
-        this.bookSet = bookSet;
     }
 
     public Integer getAuthorId() {
@@ -115,5 +116,7 @@ public class Author implements Serializable {
     public String toString() {
         return "edu.wctc.distjava.jgl.bookwebapp.model.Author[ authorId=" + authorId + " ]";
     }
+    
+    
 
 }

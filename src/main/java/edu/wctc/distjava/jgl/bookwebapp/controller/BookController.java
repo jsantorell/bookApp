@@ -1,11 +1,12 @@
 package edu.wctc.distjava.jgl.bookwebapp.controller;
 
 import edu.wctc.distjava.jgl.bookwebapp.model.Author;
-import edu.wctc.distjava.jgl.bookwebapp.model.AuthorFacade;
-import edu.wctc.distjava.jgl.bookwebapp.model.AuthorService;
+import edu.wctc.distjava.jgl.bookwebapp.model.Book1;
+import edu.wctc.distjava.jgl.bookwebapp.model.BookFacade;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,17 +17,17 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * 
+ *
  * @author Jeremy Santorelli
- * 
- * 
+ *
+ *
  */
-@WebServlet(name = "AuthorController", urlPatterns = {"/authorController"})
-public class AuthorController extends HttpServlet {
+@WebServlet(name = "BookController", urlPatterns = {"/bookController"})
+public class BookController extends HttpServlet {
 
     @EJB
-    AuthorFacade authorFace;
-    
+    BookFacade bookFace;
+
     public static final String ACTION = "action";
     public static final String ID = "id";
     public static final String LIST_ACTION = "list";
@@ -44,21 +45,21 @@ public class AuthorController extends HttpServlet {
     String password;
 
     /**
-     * 
+     *
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     * 
+     *
      */
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String destination = "authorList.jsp"; // default
+        String destination = "bookList.jsp"; // default
 
         try {
             String action = request.getParameter(ACTION);
@@ -67,48 +68,73 @@ public class AuthorController extends HttpServlet {
             if (action.equalsIgnoreCase(INDEX_ACTION)) {
 
                 destination = "index.jsp";
+                List<Book1> books = bookFace.findAll();
+                request.setAttribute("authorList", books);
+                
 
             }
             if (action.equalsIgnoreCase(TRY_LOOKUP)) {
                 destination = "index.jsp";
                 String search = request.getParameter("theSearch");
-                //List<Author> authorList = authorService.getAuthorSearch(search);
-                //request.setAttribute("authorList", authorList);
+//                List<Author> bookList = bookFace.find(search);
+//                request.setAttribute("authorList", bookList);
 
             }
             if (action.equalsIgnoreCase(LIST_ACTION)) {
 
-                List<Author> authorList = authorFace.findAll();
-                request.setAttribute("authorList", authorList);
+                int authorId = Integer.parseInt(idFromView);
+                Author author = bookFace.getAuthorFromBook(authorId);
+                request.setAttribute("author", author.getAuthorName());
+                request.setAttribute("hiddenId", idFromView);
+                List<Book1> bookList = bookFace.findAllByAuthorId(authorId);
+                request.setAttribute("bookList", bookList);
 
             }
             if (action.equalsIgnoreCase(TRY_DELETE)) {
-                //String id = request.getParameter("AuthorID");
-                Author author = authorFace.find(Integer.parseInt(idFromView));
-                authorFace.remove(author);
-                List<Author> authorList = authorFace.findAll();
-                request.setAttribute("authorList", authorList);
-                request.setAttribute("rowsAffected", author.getAuthorName() + " Removed");
+                String authorId = request.getParameter("authorId");
+                request.setAttribute("hiddenId", authorId);
+                int authorIdToInt = Integer.parseInt(authorId);
+                Book1 book = bookFace.find(Integer.parseInt(idFromView));
+                String authorName = book.getAuthorId().getAuthorName();
+                request.setAttribute("author", authorName);
+                request.setAttribute("rowsAffected", book.getTitle() + " removed");
+                bookFace.remove(book);
+                List<Book1> bookList = bookFace.findAllByAuthorId(authorIdToInt);
+                request.setAttribute("bookList", bookList);
+
             }
 
             if (action.equalsIgnoreCase(TRY_ADD)) {
-                String aName = request.getParameter("AuthorName");
-                authorFace.createAuthor(aName);
-                request.setAttribute("rowsAffected", "Record Added");
-                List<Author> authorList = authorFace.findAll();
-                request.setAttribute("authorList", authorList);
+                String bName = request.getParameter("bookName");
+                String isbn = request.getParameter("bookISBN");
+                String authorId = request.getParameter("authorId");
+                request.setAttribute("hiddenId", authorId);
+                int authorIdToInt = Integer.parseInt(authorId);
+                Author author = bookFace.getAuthorFromBook(authorIdToInt);
+                request.setAttribute("author", author.getAuthorName());
+                Book1 book = new Book1();
+                book.setTitle(bName);
+                book.setIsbn(isbn);
+                book.setAuthorId(author);
+                bookFace.create(book);
+                request.setAttribute("rowsAffected", book.getTitle() + " Added");
+                List<Book1> bookList = bookFace.findAllByAuthorId(author.getAuthorId());
+                request.setAttribute("bookList", bookList);
             }
 
             if (action.equalsIgnoreCase(TRY_UPDATE)) {
                 String aName = request.getParameter(idFromView);
-                Author author = authorFace.find(Integer.parseInt(idFromView));
-                String oldName = author.getAuthorName();
-                author.setAuthorName(aName);
-                authorFace.edit(author);
 
-                request.setAttribute("rowsAffected", oldName + " Changed To " + author.getAuthorName());
-                List<Author> authorList = authorFace.findAll();
-                request.setAttribute("authorList", authorList);
+                Book1 book = bookFace.find(Integer.parseInt(idFromView));
+                String oldName = book.getTitle();
+                int authorId = book.getAuthorId().getAuthorId();
+                request.setAttribute("hiddenId", authorId);
+                book.setTitle(aName);
+                bookFace.edit(book);
+                request.setAttribute("author", book.getAuthorId().getAuthorName());
+                request.setAttribute("rowsAffected", oldName + " Changed To " + book.getTitle());
+                List<Book1> bookList = bookFace.findAllByAuthorId(book.getAuthorId().getAuthorId());
+                request.setAttribute("bookList", bookList);
             }
 
         } catch (Exception e) {
