@@ -1,32 +1,33 @@
-package edu.wctc.distjava.jgl.bookwebapp.controller;
+package edu.wctc.distjava.jrs.bookwebapp.controller;
 
-import edu.wctc.distjava.jgl.bookwebapp.model.Author;
-import edu.wctc.distjava.jgl.bookwebapp.model.AuthorFacade;
-import edu.wctc.distjava.jgl.bookwebapp.model.AuthorService;
+import edu.wctc.distjava.jrs.bookwebapp.model.Author;
+import edu.wctc.distjava.jrs.bookwebapp.model.AuthorFacade;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
  *
- * 
+ *
  * @author Jeremy Santorelli
- * 
- * 
+ *
+ *
  */
+@Controller
 @WebServlet(name = "AuthorController", urlPatterns = {"/authorController"})
 public class AuthorController extends HttpServlet {
 
-    @EJB
     AuthorFacade authorFace;
-    
+
     public static final String ACTION = "action";
     public static final String ID = "id";
     public static final String LIST_ACTION = "list";
@@ -44,16 +45,16 @@ public class AuthorController extends HttpServlet {
     String password;
 
     /**
-     * 
+     *
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     * 
+     *
      */
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -84,7 +85,7 @@ public class AuthorController extends HttpServlet {
             }
             if (action.equalsIgnoreCase(TRY_DELETE)) {
                 //String id = request.getParameter("AuthorID");
-                Author author = authorFace.find(Integer.parseInt(idFromView));
+                Author author = authorFace.findById(idFromView);
                 authorFace.remove(author);
                 List<Author> authorList = authorFace.findAll();
                 request.setAttribute("authorList", authorList);
@@ -101,7 +102,7 @@ public class AuthorController extends HttpServlet {
 
             if (action.equalsIgnoreCase(TRY_UPDATE)) {
                 String aName = request.getParameter(idFromView);
-                Author author = authorFace.find(Integer.parseInt(idFromView));
+                Author author = authorFace.findById(idFromView);
                 String oldName = author.getAuthorName();
                 author.setAuthorName(aName);
                 authorFace.edit(author);
@@ -123,19 +124,18 @@ public class AuthorController extends HttpServlet {
 
     }
 
-    //PASS THIS TO THE PROPER LEVEL LATER
-    @Override
-    public void init() throws ServletException {
-        driverClass = getServletContext()
-                .getInitParameter("db.driver.class");
-        url = getServletContext()
-                .getInitParameter("db.url");
-        userName = getServletContext()
-                .getInitParameter("db.username");
-        password = getServletContext()
-                .getInitParameter("db.password");
-    }
-
+//    //PASS THIS TO THE PROPER LEVEL LATER
+//    @Override
+//    public void init() throws ServletException {
+//        driverClass = getServletContext()
+//                .getInitParameter("db.driver.class");
+//        url = getServletContext()
+//                .getInitParameter("db.url");
+//        userName = getServletContext()
+//                .getInitParameter("db.username");
+//        password = getServletContext()
+//                .getInitParameter("db.password");
+//    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -173,6 +173,18 @@ public class AuthorController extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 
+    @Override
+    public void init() throws ServletException {
+
+        ServletContext sctx = getServletContext();
+
+        WebApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(sctx);
+
+        authorFace = (AuthorFacade) ctx.getBean("authorFacade");
+
+    }
+
+// </editor-fold>
 }

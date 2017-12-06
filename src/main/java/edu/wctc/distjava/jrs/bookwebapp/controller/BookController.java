@@ -1,19 +1,24 @@
-package edu.wctc.distjava.jgl.bookwebapp.controller;
+package edu.wctc.distjava.jrs.bookwebapp.controller;
 
-import edu.wctc.distjava.jgl.bookwebapp.model.Author;
-import edu.wctc.distjava.jgl.bookwebapp.model.Book1;
-import edu.wctc.distjava.jgl.bookwebapp.model.BookFacade;
+import edu.wctc.distjava.jrs.bookwebapp.model.Author;
+import edu.wctc.distjava.jrs.bookwebapp.model.AuthorFacade;
+import edu.wctc.distjava.jrs.bookwebapp.model.Book1;
+import edu.wctc.distjava.jrs.bookwebapp.model.BookFacade;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
  *
@@ -22,10 +27,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  *
  */
+@Controller
 @WebServlet(name = "BookController", urlPatterns = {"/bookController"})
 public class BookController extends HttpServlet {
 
-    @EJB
+   
     BookFacade bookFace;
 
     public static final String ACTION = "action";
@@ -86,7 +92,7 @@ public class BookController extends HttpServlet {
                 Author author = bookFace.getAuthorFromBook(authorId);
                 request.setAttribute("author", author.getAuthorName());
                 request.setAttribute("hiddenId", idFromView);
-                List<Book1> bookList = bookFace.findAllByAuthorId(authorId);
+                Set<Book1> bookList = bookFace.findAllByAuthorId(authorId);
                 request.setAttribute("bookList", bookList);
 
             }
@@ -94,12 +100,12 @@ public class BookController extends HttpServlet {
                 String authorId = request.getParameter("authorId");
                 request.setAttribute("hiddenId", authorId);
                 int authorIdToInt = Integer.parseInt(authorId);
-                Book1 book = bookFace.find(Integer.parseInt(idFromView));
+                Book1 book = bookFace.find(idFromView);
                 String authorName = book.getAuthorId().getAuthorName();
                 request.setAttribute("author", authorName);
                 request.setAttribute("rowsAffected", book.getTitle() + " removed");
                 bookFace.remove(book);
-                List<Book1> bookList = bookFace.findAllByAuthorId(authorIdToInt);
+                Set<Book1> bookList = bookFace.findAllByAuthorId(authorIdToInt);
                 request.setAttribute("bookList", bookList);
 
             }
@@ -118,14 +124,14 @@ public class BookController extends HttpServlet {
                 book.setAuthorId(author);
                 bookFace.create(book);
                 request.setAttribute("rowsAffected", book.getTitle() + " Added");
-                List<Book1> bookList = bookFace.findAllByAuthorId(author.getAuthorId());
+                Set<Book1> bookList = bookFace.findAllByAuthorId(author.getAuthorId());
                 request.setAttribute("bookList", bookList);
             }
 
             if (action.equalsIgnoreCase(TRY_UPDATE)) {
                 String aName = request.getParameter(idFromView);
 
-                Book1 book = bookFace.find(Integer.parseInt(idFromView));
+                Book1 book = bookFace.find(idFromView);
                 String oldName = book.getTitle();
                 int authorId = book.getAuthorId().getAuthorId();
                 request.setAttribute("hiddenId", authorId);
@@ -133,7 +139,7 @@ public class BookController extends HttpServlet {
                 bookFace.edit(book);
                 request.setAttribute("author", book.getAuthorId().getAuthorName());
                 request.setAttribute("rowsAffected", oldName + " Changed To " + book.getTitle());
-                List<Book1> bookList = bookFace.findAllByAuthorId(book.getAuthorId().getAuthorId());
+                Set<Book1> bookList = bookFace.findAllByAuthorId(book.getAuthorId().getAuthorId());
                 request.setAttribute("bookList", bookList);
             }
 
@@ -147,20 +153,20 @@ public class BookController extends HttpServlet {
                 = request.getRequestDispatcher(destination);
         view.forward(request, response);
 
-    }
+    } 
 
     //PASS THIS TO THE PROPER LEVEL LATER
-    @Override
-    public void init() throws ServletException {
-        driverClass = getServletContext()
-                .getInitParameter("db.driver.class");
-        url = getServletContext()
-                .getInitParameter("db.url");
-        userName = getServletContext()
-                .getInitParameter("db.username");
-        password = getServletContext()
-                .getInitParameter("db.password");
-    }
+//    @Override
+//    public void init() throws ServletException {
+//        driverClass = getServletContext()
+//                .getInitParameter("db.driver.class");
+//        url = getServletContext()
+//                .getInitParameter("db.url");
+//        userName = getServletContext()
+//                .getInitParameter("db.username");
+//        password = getServletContext()
+//                .getInitParameter("db.password");
+//    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -199,6 +205,18 @@ public class BookController extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
+    @Override
+    public void init() throws ServletException {
+
+        ServletContext sctx = getServletContext();
+
+        WebApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(sctx);
+
+        bookFace = (BookFacade) ctx.getBean("bookFacade");
+
+    }
+
+// </editor-fold>
 
 }

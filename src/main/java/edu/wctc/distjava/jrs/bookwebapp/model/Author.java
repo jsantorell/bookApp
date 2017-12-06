@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.wctc.distjava.jgl.bookwebapp.model;
+package edu.wctc.distjava.jrs.bookwebapp.model;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -50,7 +51,7 @@ public class Author implements Serializable {
     @Column(name = "date_added")
     @Temporal(TemporalType.DATE)
     private Date dateAdded;
-    @OneToMany(mappedBy = "authorId", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "authorId", cascade = CascadeType.ALL)
     private Set<Book1> bookSet;
 
     public Set<Book1> getBookSet() {
@@ -114,7 +115,7 @@ public class Author implements Serializable {
 
     @Override
     public String toString() {
-        return "edu.wctc.distjava.jgl.bookwebapp.model.Author[ authorId=" + authorId + " ]";
+        return "edu.wctc.distjava.jrs.bookwebapp.model.Author[ authorId=" + authorId + " ]";
     }
     
     

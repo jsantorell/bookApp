@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.wctc.distjava.jgl.bookwebapp.model;
+package edu.wctc.distjava.jrs.bookwebapp.model;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -114,7 +114,7 @@ public class Book1 implements Serializable {
 
     @Override
     public String toString() {
-        return "edu.wctc.distjava.jgl.bookwebapp.model.Book1[ bookId=" + bookId + " ]";
+        return "edu.wctc.distjava.jrs.bookwebapp.model.Book1[ bookId=" + bookId + " ]";
     }
 
 }
